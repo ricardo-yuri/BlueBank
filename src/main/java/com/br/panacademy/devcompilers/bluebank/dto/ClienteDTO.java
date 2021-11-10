@@ -1,38 +1,35 @@
-package com.br.panacademy.devcompilers.bluebank.entity;
+package com.br.panacademy.devcompilers.bluebank.dto;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.validator.constraints.Length;
+
+import com.br.panacademy.devcompilers.bluebank.entity.Endereco;
 import com.br.panacademy.devcompilers.bluebank.enums.TipoCliente;
 
-@Entity(name = "tb_cliente")
-public class Cliente {
+public class ClienteDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_cliente")
 	private Long id;
-	@Column
+	
+	@NotEmpty
+	@Length(max = 150)
 	private String nome;
-	@Column
+	
+	@NotEmpty
+	@Length(max = 14)
 	private String cpf;
-	@Column
+	
+	@Length(max = 14)
 	private String rg;
-	@ManyToOne
-	@JoinColumn(name = "id_endereco", nullable = false)
+	
+	@NotEmpty
 	private Endereco endereco;
-
-	@Column
+	
+	@NotEmpty
 	private TipoCliente tipoCliente;
-
-	@Column
+	
 	private LocalDateTime createAt;
 
 	public Long getId() {
@@ -74,11 +71,11 @@ public class Cliente {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
 	public TipoCliente getTipoCliente() {
 		return tipoCliente;
 	}
-	
+
 	public void setTipoCliente(TipoCliente tipoCliente) {
 		this.tipoCliente = tipoCliente;
 	}
@@ -90,5 +87,6 @@ public class Cliente {
 	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
 	}
-
+	
+	
 }
