@@ -98,4 +98,11 @@ public class Endereco {
 		this.cliente = cliente;
 	}
 
+	@Override
+	public String toString() {
+		return "Endereco [id=" + id + ", cep=" + cep + ", logradouro=" + logradouro + ", complemento=" + complemento
+				+ ", bairro=" + bairro + ", localidade=" + localidade + ", uf=" + uf + ", cliente=" + cliente + "]";
+	}
+
+	
 }

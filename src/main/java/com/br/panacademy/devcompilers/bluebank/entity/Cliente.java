@@ -2,6 +2,7 @@ package com.br.panacademy.devcompilers.bluebank.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Cliente {
 	private String cpf;
 	@Column
 	private String rg;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "id_endereco", nullable = false)
 	private Endereco endereco;
 
@@ -91,4 +92,11 @@ public class Cliente {
 		this.createAt = createAt;
 	}
 
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", rg=" + rg + ", endereco=" + endereco
+				+ ", tipoCliente=" + tipoCliente + ", createAt=" + createAt + "]";
+	}
+
+	
 }

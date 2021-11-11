@@ -26,7 +26,7 @@ public class ClienteDTO {
 	@NotEmpty
 	private EnderecoDTO endereco;
 	
-	//@NotEmpty
+	@NotEmpty
 	private TipoCliente tipoCliente;
 	
 	private LocalDateTime createAt;
