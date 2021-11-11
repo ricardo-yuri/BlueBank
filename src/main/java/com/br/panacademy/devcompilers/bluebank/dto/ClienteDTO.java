@@ -6,7 +6,6 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.br.panacademy.devcompilers.bluebank.entity.Endereco;
 import com.br.panacademy.devcompilers.bluebank.enums.TipoCliente;
 
 public class ClienteDTO {
@@ -25,9 +24,9 @@ public class ClienteDTO {
 	private String rg;
 	
 	@NotEmpty
-	private Endereco endereco;
+	private EnderecoDTO endereco;
 	
-	@NotEmpty
+	//@NotEmpty
 	private TipoCliente tipoCliente;
 	
 	private LocalDateTime createAt;
@@ -64,11 +63,11 @@ public class ClienteDTO {
 		this.rg = rg;
 	}
 
-	public Endereco getEndereco() {
+	public EnderecoDTO getEndereco() {
 		return endereco;
 	}
 
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(EnderecoDTO endereco) {
 		this.endereco = endereco;
 	}
 
