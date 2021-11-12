@@ -37,7 +37,7 @@ public class Mapper {
 		return clienteDTO;
 	}
 	
-	private static EnderecoDTO enderecoToDTO(Endereco endereco) {
+	public static EnderecoDTO enderecoToDTO(Endereco endereco) {
 		EnderecoDTO enderecoDTO = new EnderecoDTO();
 		
 		enderecoDTO.setId(endereco.getId());
@@ -45,11 +45,13 @@ public class Mapper {
 		enderecoDTO.setLogradouro(endereco.getLogradouro());
 		enderecoDTO.setComplemento(endereco.getComplemento());
 		enderecoDTO.setLocalidade(endereco.getLocalidade());
+		enderecoDTO.setUf(endereco.getUf());
+		enderecoDTO.setBairro(endereco.getBairro());
 		
 		return enderecoDTO;
 	}
 	
-	private static Endereco enderecoToEntity(EnderecoDTO enderecoDTO) {
+	public static Endereco enderecoToEntity(EnderecoDTO enderecoDTO) {
 		Endereco enderecoEntity = new Endereco();
 		
 		enderecoEntity.setId(enderecoDTO.getId());
@@ -57,6 +59,8 @@ public class Mapper {
 		enderecoEntity.setLogradouro(enderecoDTO.getLogradouro());
 		enderecoEntity.setComplemento(enderecoDTO.getComplemento());
 		enderecoEntity.setLocalidade(enderecoDTO.getLocalidade());
+		enderecoEntity.setUf(enderecoDTO.getUf());
+		enderecoEntity.setBairro(enderecoDTO.getBairro());
 		
 		return enderecoEntity;
 	}

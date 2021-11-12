@@ -1,7 +1,9 @@
 package com.br.panacademy.devcompilers.bluebank.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,8 +33,8 @@ public class Endereco {
 	@Column(length = 2)
 	private String uf;
     @JsonIgnore
-	@OneToMany(mappedBy = "endereco")
-	private List<Cliente> cliente;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "endereco")
+	private List<Cliente> cliente = new ArrayList<Cliente>();
 
 	public Long getId() {
 		return id;

@@ -27,7 +27,7 @@ public class Cliente {
 	@Column
 	private String rg;
 	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "id_endereco", nullable = false)
+	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 
 	@Column
@@ -35,6 +35,9 @@ public class Cliente {
 
 	@Column
 	private LocalDateTime createAt;
+	
+	@Column
+	private boolean ativo = true;
 
 	public Long getId() {
 		return id;

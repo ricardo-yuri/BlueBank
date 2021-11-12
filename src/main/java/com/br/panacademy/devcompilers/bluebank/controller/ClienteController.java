@@ -38,7 +38,7 @@ public class ClienteController {
 	
 	@PostMapping
 	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) {
-		return ResponseEntity.status(HttpStatus.CREATED).body( clienteService.create(clienteDTO) );
+		return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.create(clienteDTO));
 	}
 	
 	@PutMapping("/update")
@@ -50,6 +50,11 @@ public class ClienteController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteCliente(@PathVariable Long id) {
 		return ResponseEntity.status(HttpStatus.OK).body(clienteService.deleteCliente(id));
+	}
+	
+	@GetMapping("cep/{cep}")
+	public void findEnderecoByCep(@PathVariable Integer cep) {
+		clienteService.findEnderecoByCep(cep);
 	}
 	
 }
