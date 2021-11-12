@@ -65,10 +65,8 @@ public class ClienteService {
 	public EnderecoDTO findEnderecoByCep(Integer cep) {
 		RestTemplate restTemplate = new RestTemplate();
 		String viaCep = "https://viacep.com.br/ws/";
-		ResponseEntity<String> response = restTemplate.getForEntity(viaCep + cep + "/json/", String.class);
-		EnderecoDTO endereco = new EnderecoDTO();
-		System.out.println(response.getBody());
-		return endereco;
+		ResponseEntity<EnderecoDTO> response = restTemplate.getForEntity(viaCep + cep + "/json/", EnderecoDTO.class);
+		return Mapper.responseEntityEnderecoToDTO(response);
 		
 	}
 

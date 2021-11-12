@@ -1,5 +1,7 @@
 package com.br.panacademy.devcompilers.bluebank.utils;
 
+import org.springframework.http.ResponseEntity;
+
 import com.br.panacademy.devcompilers.bluebank.dto.ClienteDTO;
 import com.br.panacademy.devcompilers.bluebank.dto.EnderecoDTO;
 import com.br.panacademy.devcompilers.bluebank.entity.Cliente;
@@ -63,6 +65,34 @@ public class Mapper {
 		enderecoEntity.setBairro(enderecoDTO.getBairro());
 		
 		return enderecoEntity;
+	}
+	
+	public static Endereco responseEntityEnderecoToEntity(ResponseEntity<EnderecoDTO> enderecoDTO) {
+		Endereco enderecoEntity = new Endereco();
+		
+		enderecoEntity.setId(enderecoDTO.getBody().getId());
+		enderecoEntity.setCep(enderecoDTO.getBody().getCep());
+		enderecoEntity.setLogradouro(enderecoDTO.getBody().getLogradouro());
+		enderecoEntity.setComplemento(enderecoDTO.getBody().getComplemento());
+		enderecoEntity.setLocalidade(enderecoDTO.getBody().getLocalidade());
+		enderecoEntity.setUf(enderecoDTO.getBody().getUf());
+		enderecoEntity.setBairro(enderecoDTO.getBody().getBairro());
+		
+		return enderecoEntity;
+	}
+	
+	public static EnderecoDTO responseEntityEnderecoToDTO(ResponseEntity<EnderecoDTO> endereco) {
+		EnderecoDTO enderecoDTO = new EnderecoDTO();
+		
+		enderecoDTO.setId(endereco.getBody().getId());
+		enderecoDTO.setCep(endereco.getBody().getCep());
+		enderecoDTO.setLogradouro(endereco.getBody().getLogradouro());
+		enderecoDTO.setComplemento(endereco.getBody().getComplemento());
+		enderecoDTO.setLocalidade(endereco.getBody().getLocalidade());
+		enderecoDTO.setUf(endereco.getBody().getUf());
+		enderecoDTO.setBairro(endereco.getBody().getBairro());
+		
+		return enderecoDTO;
 	}
 	
 }

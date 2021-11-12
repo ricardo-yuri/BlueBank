@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.panacademy.devcompilers.bluebank.dto.ClienteDTO;
+import com.br.panacademy.devcompilers.bluebank.dto.EnderecoDTO;
 import com.br.panacademy.devcompilers.bluebank.service.ClienteService;
 
 @RestController
@@ -53,8 +54,8 @@ public class ClienteController {
 	}
 	
 	@GetMapping("cep/{cep}")
-	public void findEnderecoByCep(@PathVariable Integer cep) {
-		clienteService.findEnderecoByCep(cep);
+	public ResponseEntity<EnderecoDTO> findEnderecoByCep(@PathVariable Integer cep) {
+		return ResponseEntity.status(HttpStatus.OK).body(clienteService.findEnderecoByCep(cep));
 	}
 	
 }
