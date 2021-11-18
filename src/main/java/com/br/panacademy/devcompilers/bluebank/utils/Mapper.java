@@ -3,8 +3,10 @@ package com.br.panacademy.devcompilers.bluebank.utils;
 import org.springframework.http.ResponseEntity;
 
 import com.br.panacademy.devcompilers.bluebank.dto.ClienteDTO;
+import com.br.panacademy.devcompilers.bluebank.dto.ContaDTO;
 import com.br.panacademy.devcompilers.bluebank.dto.EnderecoDTO;
 import com.br.panacademy.devcompilers.bluebank.entity.Cliente;
+import com.br.panacademy.devcompilers.bluebank.entity.Conta;
 import com.br.panacademy.devcompilers.bluebank.entity.Endereco;
 
 public class Mapper {
@@ -95,4 +97,29 @@ public class Mapper {
 		return enderecoDTO;
 	}
 	
+	public static Conta contaToEntity(ContaDTO contaDTO) {
+		Conta contaEntity = new Conta();
+		
+		contaEntity.setId(contaDTO.getId());
+		contaEntity.setAgencia(contaDTO.getAgencia());
+		contaEntity.setNumero(contaDTO.getNumero());
+		contaEntity.setTipoConta(contaDTO.getTipoConta());
+		contaEntity.setSenha(contaDTO.getSenha());
+		contaEntity.setCreateAt(contaDTO.getCreateAt());
+		
+		return contaEntity;
+	}
+	
+	public static ContaDTO contaToDTO(Conta contaEntity) {
+		ContaDTO contaDTO = new ContaDTO();
+		
+		contaDTO.setId(contaEntity.getId());
+		contaDTO.setAgencia(contaEntity.getAgencia());
+		contaDTO.setNumero(contaEntity.getNumero());
+		contaDTO.setTipoConta(contaEntity.getTipoConta());
+		contaDTO.setSenha(contaEntity.getSenha());
+		contaDTO.setCreateAt(contaEntity.getCreateAt());
+		
+		return contaDTO;
+	}
 }

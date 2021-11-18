@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+<<<<<<< Updated upstream
 import javax.transaction.Transactional;
 
+=======
+>>>>>>> Stashed changes
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -46,9 +49,13 @@ public class ClienteService {
 
 	public ClienteDTO updateCliente(ClienteDTO clienteDTO) {
 		Cliente cliente = verifyIfExists(clienteDTO.getId());
+<<<<<<< Updated upstream
 
 		enderecoRepository.save(cliente.getEndereco());
 
+=======
+				
+>>>>>>> Stashed changes
 		Cliente clienteSaved = clienteRepository.save(cliente);
 
 		return Mapper.toDTO(clienteSaved);

@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.br.panacademy.devcompilers.bluebank.enums.TipoCliente;
 
 @Entity(name = "tb_cliente")
@@ -22,7 +24,7 @@ public class Cliente {
 	private Long id;
 	@Column
 	private String nome;
-	@Column
+	@Column(nullable = false, unique = true)
 	private String cpf;
 	@Column
 	private String rg;
@@ -30,15 +32,17 @@ public class Cliente {
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 
-	@Column
+	@Column(nullable = false)
 	private TipoCliente tipoCliente;
 
 	@Column
+	@CreationTimestamp
 	private LocalDateTime createAt;
 	
 	@Column
 	private boolean ativo = true;
 
+	
 	public Long getId() {
 		return id;
 	}
