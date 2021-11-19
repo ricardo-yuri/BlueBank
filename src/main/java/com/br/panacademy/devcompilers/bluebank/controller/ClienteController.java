@@ -18,37 +18,68 @@ import com.br.panacademy.devcompilers.bluebank.dto.ClienteDTO;
 import com.br.panacademy.devcompilers.bluebank.dto.EnderecoDTO;
 import com.br.panacademy.devcompilers.bluebank.service.ClienteService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiResponse;
+
 @RestController
 @RequestMapping(value = "/api/clientes")
+@Api("Endpoint Cliente.")
 public class ClienteController {
 	
 	@Autowired
 	ClienteService clienteService;
 	
 	@GetMapping
+	@ApiOperation("Lista todos os clientes.")
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Retorna a lista de clientes com sucesso."),
+            @ApiResponse(code = 400, message = "Falha ao listar clientes."),
+    })
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 		List<ClienteDTO> clientes = clienteService.findAll();
-		return ResponseEntity.status(200).body(clientes);
+		return ResponseEntity.status(201).body(clientes);
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation("Retorna o clinte por ID.")
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Retorna o cliente por ID com Sucesso."),
+            @ApiResponse(code = 400, message = "Falha ao buscar o cliente por ID."),
+    })
 	public ResponseEntity<ClienteDTO> findById(@PathVariable Long id) {
 		ClienteDTO cliente = clienteService.findById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(cliente);
 	}
 	
 	@PostMapping
+	@ApiOperation("Cria um novo cliente.")
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Adiciona o cliente com Sucesso."),
+            @ApiResponse(code = 400, message = "Falha ao criar um novo cliente."),
+    })
 	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) {
 		return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.create(clienteDTO));
 	}
 	
 	@PutMapping("/update")
+	@ApiOperation("Atualiza o cliente.")
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Atualiza o cliente com Sucesso."),
+            @ApiResponse(code = 400, message = "Falha ao atualizar o cliente."),
+    })
 	public ResponseEntity<ClienteDTO> updateCliente(@RequestBody ClienteDTO clienteDTO, @PathVariable Long id) {
 		ClienteDTO cliente = clienteService.updateCliente(clienteDTO);
 		return ResponseEntity.status(HttpStatus.OK).body(cliente);
 	}	
 
 	@DeleteMapping("/delete/{id}")
+	@ApiOperation("Deleta um cliente.")
+	@ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Sucesso ao deletar o cliente."),
+            @ApiResponse(code = 400, message = "Falha ao deletar um cliente."),
+    })
 	public ResponseEntity<String> deleteCliente(@PathVariable Long id) {
 		return ResponseEntity.status(HttpStatus.OK).body(clienteService.deleteCliente(id));
 	}
