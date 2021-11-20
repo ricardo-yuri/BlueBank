@@ -11,10 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import javax.persistence.*;
+
+
 import org.hibernate.annotations.CreationTimestamp;
 
 
 @Entity
+@Table(name = "tb_conta")
 public class Conta {
 	
 	@Id
@@ -95,7 +99,6 @@ public class Conta {
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -111,7 +114,6 @@ public class Conta {
 	public String getAgencia() {
 		return agencia;
 	}
-
 	public void setAgencia(String agencia) {
 		this.agencia = agencia;
 	}
@@ -122,12 +124,12 @@ public class Conta {
 
 	public void setNumeroConta(String numeroConta) {
 		this.numeroConta = numeroConta;
+
 	}
 
 	public String getTipoConta() {
 		return tipoConta;
 	}
-
 	public void setTipoConta(String tipoConta) {
 		this.tipoConta = tipoConta;
 	}
@@ -143,7 +145,6 @@ public class Conta {
 	public String getSenha() {
 		return senha;
 	}
-
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
@@ -151,7 +152,6 @@ public class Conta {
 	public LocalDateTime getCreateAt() {
 		return createAt;
 	}
-
 	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
 	}
