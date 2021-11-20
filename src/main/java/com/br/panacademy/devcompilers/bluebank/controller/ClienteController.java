@@ -1,7 +1,10 @@
 package com.br.panacademy.devcompilers.bluebank.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +26,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
+@Log4j2
 @RestController
 @RequestMapping(value = "/api/clientes")
 @Api("Endpoint Cliente.")
@@ -30,7 +34,9 @@ public class ClienteController {
 	
 	@Autowired
 	ClienteService clienteService;
-	
+	@Autowired
+	DateUtil dateUtil;
+
 	@GetMapping
 	@ApiOperation("Lista todos os clientes.")
 	@ApiResponses(value = {
@@ -38,6 +44,7 @@ public class ClienteController {
             @ApiResponse(code = 400, message = "Falha ao listar clientes."),
     })
 	public ResponseEntity<List<ClienteDTO>> findAll() {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findAll)"));
 		List<ClienteDTO> clientes = clienteService.findAll();
 		return ResponseEntity.status(201).body(clientes);
 	}
@@ -49,6 +56,7 @@ public class ClienteController {
             @ApiResponse(code = 400, message = "Falha ao buscar o cliente por ID."),
     })
 	public ResponseEntity<ClienteDTO> findById(@PathVariable Long id) {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findById)"));
 		ClienteDTO cliente = clienteService.findById(id);
 		return ResponseEntity.status(HttpStatus.OK).body(cliente);
 	}
@@ -60,6 +68,7 @@ public class ClienteController {
             @ApiResponse(code = 400, message = "Falha ao criar um novo cliente."),
     })
 	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log POST (createCliente)"));
 		return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.create(clienteDTO));
 	}
 	
@@ -70,6 +79,7 @@ public class ClienteController {
             @ApiResponse(code = 400, message = "Falha ao atualizar o cliente."),
     })
 	public ResponseEntity<ClienteDTO> updateCliente(@RequestBody ClienteDTO clienteDTO, @PathVariable Long id) {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (updateCliente)"));
 		ClienteDTO cliente = clienteService.updateCliente(clienteDTO);
 		return ResponseEntity.status(HttpStatus.OK).body(cliente);
 	}	
@@ -81,11 +91,13 @@ public class ClienteController {
             @ApiResponse(code = 400, message = "Falha ao deletar um cliente."),
     })
 	public ResponseEntity<String> deleteCliente(@PathVariable Long id) {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log DELETE (deleteCliente)"));
 		return ResponseEntity.status(HttpStatus.OK).body(clienteService.deleteCliente(id));
 	}
 	
 	@GetMapping("cep/{cep}")
 	public ResponseEntity<EnderecoDTO> findEnderecoByCep(@PathVariable Integer cep) {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET CEP (findEnderecoByCep)"));
 		return ResponseEntity.status(HttpStatus.OK).body(clienteService.findEnderecoByCep(cep));
 	}
 	

@@ -39,7 +39,6 @@ public class Endereco {
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -47,7 +46,6 @@ public class Endereco {
 	public String getCep() {
 		return cep;
 	}
-
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
@@ -55,7 +53,6 @@ public class Endereco {
 	public String getLogradouro() {
 		return logradouro;
 	}
-
 	public void setLogradouro(String logradouro) {
 		this.logradouro = logradouro;
 	}
@@ -63,7 +60,6 @@ public class Endereco {
 	public String getComplemento() {
 		return complemento;
 	}
-
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
@@ -71,7 +67,6 @@ public class Endereco {
 	public String getBairro() {
 		return bairro;
 	}
-
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
@@ -79,7 +74,6 @@ public class Endereco {
 	public String getLocalidade() {
 		return localidade;
 	}
-
 	public void setLocalidade(String localidade) {
 		this.localidade = localidade;
 	}
@@ -87,7 +81,6 @@ public class Endereco {
 	public String getUf() {
 		return uf;
 	}
-
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
@@ -95,7 +88,6 @@ public class Endereco {
 	public List<Cliente> getCliente() {
 		return cliente;
 	}
-
 	public void setCliente(List<Cliente> cliente) {
 		this.cliente = cliente;
 	}

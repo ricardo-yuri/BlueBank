@@ -1,5 +1,7 @@
 package com.br.panacademy.devcompilers.bluebank.controller;
 
+import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +22,18 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+import java.time.LocalDateTime;
+
+@Log4j2
 @RestController
 @RequestMapping(value = "/api/contas")
 @Api("Endpoint Conta.")
 public class ContaController {
 
 	@Autowired
-	private ContaService contaService; 
+	private ContaService contaService;
+	@Autowired
+	private DateUtil dateUtil;
 	
 	@PostMapping
 	@ApiOperation("Cria uma nova conta.")
@@ -35,6 +42,7 @@ public class ContaController {
             @ApiResponse(code = 400, message = "Falha ao criar a conta."),
     })
 	public ResponseEntity<ContaDTO> createConta(@RequestBody ContaDTO contaDTO) {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log POST (createConta)"));
 		return ResponseEntity.status(HttpStatus.CREATED).body(contaService.createConta(contaDTO));	
 	}
 	
@@ -45,6 +53,7 @@ public class ContaController {
             @ApiResponse(code = 400, message = "Falha ao buscar a conta por ID."),
     })
 	public ResponseEntity<ContaDTO> findByIdConta(@PathVariable Long id) {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findByIdConta)"));
 		return ResponseEntity.status(HttpStatus.OK).body(contaService.findByIdConta(id));
 	}
 	
@@ -55,6 +64,7 @@ public class ContaController {
             @ApiResponse(code = 400, message = "Falha ao atualizar a conta."),
     })
 	public ResponseEntity<ContaDTO> updateConta(@RequestBody ContaDTO contaDTO) {
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (updateConta)"));
 		ContaDTO contaToUpdate = contaService.updateConta(contaDTO);
 		return ResponseEntity.status(HttpStatus.OK).body(contaToUpdate);
 	}
@@ -66,6 +76,7 @@ public class ContaController {
             @ApiResponse(code = 400, message = "Falha ao deletar a conta."),
     })
 	public ResponseEntity<String> deleteConta(@PathVariable Long id) {
-		return ResponseEntity.status(HttpStatus.OK).body(contaService.deleteConta(id));	
+		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log DELETE (deleteConta)"));
+		return ResponseEntity.status(HttpStatus.OK).body(contaService.deleteConta(id));
 	}
 }

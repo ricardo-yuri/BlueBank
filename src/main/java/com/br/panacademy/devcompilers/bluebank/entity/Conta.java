@@ -34,7 +34,6 @@ public class Conta {
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -42,7 +41,6 @@ public class Conta {
 	public String getAgencia() {
 		return agencia;
 	}
-
 	public void setAgencia(String agencia) {
 		this.agencia = agencia;
 	}
@@ -50,7 +48,6 @@ public class Conta {
 	public String getNumero() {
 		return numero;
 	}
-
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
@@ -58,7 +55,6 @@ public class Conta {
 	public String getTipoConta() {
 		return tipoConta;
 	}
-
 	public void setTipoConta(String tipoConta) {
 		this.tipoConta = tipoConta;
 	}
@@ -66,7 +62,6 @@ public class Conta {
 	public String getSenha() {
 		return senha;
 	}
-
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
@@ -74,7 +69,6 @@ public class Conta {
 	public LocalDateTime getCreateAt() {
 		return createAt;
 	}
-
 	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
 	}

@@ -45,7 +45,6 @@ public class Cliente {
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -53,7 +52,6 @@ public class Cliente {
 	public String getNome() {
 		return nome;
 	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -61,7 +59,6 @@ public class Cliente {
 	public String getCpf() {
 		return cpf;
 	}
-
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
@@ -69,7 +66,6 @@ public class Cliente {
 	public String getRg() {
 		return rg;
 	}
-
 	public void setRg(String rg) {
 		this.rg = rg;
 	}
@@ -77,7 +73,6 @@ public class Cliente {
 	public Endereco getEndereco() {
 		return endereco;
 	}
-
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
@@ -85,7 +80,6 @@ public class Cliente {
 	public TipoCliente getTipoCliente() {
 		return tipoCliente;
 	}
-	
 	public void setTipoCliente(TipoCliente tipoCliente) {
 		this.tipoCliente = tipoCliente;
 	}
@@ -93,7 +87,6 @@ public class Cliente {
 	public LocalDateTime getCreateAt() {
 		return createAt;
 	}
-
 	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
 	}
