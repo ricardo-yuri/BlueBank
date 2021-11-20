@@ -1,5 +1,7 @@
 package com.br.panacademy.devcompilers.bluebank.utils;
 
+import com.br.panacademy.devcompilers.bluebank.dto.HistoricoDTO;
+import com.br.panacademy.devcompilers.bluebank.entity.Historico;
 import org.springframework.http.ResponseEntity;
 
 import com.br.panacademy.devcompilers.bluebank.dto.ClienteDTO;
@@ -136,5 +138,27 @@ public class Mapper {
 		contaDTO.setCreateAt(contaEntity.getCreateAt());
 		
 		return contaDTO;
+	}
+
+	public static HistoricoDTO historicoToDTO(Historico historicoEntity) {
+		HistoricoDTO historicoDTO = new HistoricoDTO();
+
+		historicoDTO.setId(historicoEntity.getId());
+		historicoDTO.setLog(historicoEntity.getLog());
+		historicoDTO.setTipo(historicoEntity.getTipo());
+		historicoDTO.setCreateAt(historicoEntity.getCreateAt());
+
+		return historicoDTO;
+	}
+
+	public static Historico historicoToEntity(HistoricoDTO historicoDTO) {
+		Historico historicoEntity = new Historico();
+
+		historicoEntity.setId(historicoDTO.getId());
+		historicoEntity.setLog(historicoDTO.getLog());
+		historicoEntity.setTipo(historicoDTO.getTipo());
+		historicoEntity.setCreateAt(historicoDTO.getCreateAt());
+
+		return historicoEntity;
 	}
 }

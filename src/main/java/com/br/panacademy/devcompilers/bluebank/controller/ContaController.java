@@ -58,7 +58,6 @@ public class ContaController {
             @ApiResponse(code = 200, message = "Retorna a conta por ID com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao buscar a conta por ID."),
     })
-
 	public ResponseEntity<Object> findByIdConta(@PathVariable Long id) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findByIdConta)"));
 		try {

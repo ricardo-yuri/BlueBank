@@ -1,9 +1,11 @@
 package com.br.panacademy.devcompilers.bluebank.service;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 import javax.transaction.Transactional;
 
+import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,11 @@ public class ContaService {
 	
 	@Autowired
 	private ContaRepository contaRespository;
-	
+	@Autowired
+	private DateUtil dateUtil;
+	@Autowired
+	private HistoricoService historicoService;
+
 	public ContaDTO createConta(ContaDTO contaDTO) {
 		Conta conta = contaRespository.save(Mapper.contaToEntity(contaDTO));
 		return Mapper.contaToDTO(conta);
@@ -55,6 +61,10 @@ public class ContaService {
 			saldoAtual -= valor;
 			conta.setSaldo(saldoAtual);
 			contaRespository.save(conta);
+
+			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(String.format("Saque -> conta ID: %d, valor: %f", idConta, valor));
+			historicoService.adicionaLog(logToSave, "transação");
+
 			return "Saque realizado!";
 		}else {
 			return "Saldo insuficiente!";

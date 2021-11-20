@@ -2,7 +2,10 @@ package com.br.panacademy.devcompilers.bluebank.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import com.br.panacademy.devcompilers.bluebank.dto.HistoricoDTO;
+import com.br.panacademy.devcompilers.bluebank.service.HistoricoService;
 import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,28 +40,48 @@ public class ClienteController {
 	@Autowired
 	DateUtil dateUtil;
 
+	@Autowired
+	private HistoricoService historicoService;
+
 	@GetMapping
 	@ApiOperation("Lista todos os clientes.")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Retorna a lista de clientes com sucesso."),
+            @ApiResponse(code = 200, message = "Retorna a lista de clientes com sucesso."),
             @ApiResponse(code = 400, message = "Falha ao listar clientes."),
     })
-	public ResponseEntity<List<ClienteDTO>> findAll() {
+	public ResponseEntity findAll() {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findAll)"));
-		List<ClienteDTO> clientes = clienteService.findAll();
-		return ResponseEntity.status(201).body(clientes);
+
+		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findAll)");
+		historicoService.adicionaLog(logToSave, "sistema");
+
+		try {
+			List<ClienteDTO> clientes = clienteService.findAll();
+			return ResponseEntity.status(200).body(clientes);
+		}catch (NoSuchElementException err) {
+
+			return ResponseEntity.status(400).body(err.getMessage());
+		}
 	}
 	
 	@GetMapping("/{id}")
 	@ApiOperation("Retorna o clinte por ID.")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Retorna o cliente por ID com Sucesso."),
+            @ApiResponse(code = 200, message = "Retorna o cliente por ID com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao buscar o cliente por ID."),
     })
-	public ResponseEntity<ClienteDTO> findById(@PathVariable Long id) {
+	public ResponseEntity findById(@PathVariable Long id) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findById)"));
 		ClienteDTO cliente = clienteService.findById(id);
-		return ResponseEntity.status(HttpStatus.OK).body(cliente);
+
+		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findById)");
+		historicoService.adicionaLog(logToSave, "sistema");
+
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(cliente);
+		}catch (NoSuchElementException err) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
+		}
 	}
 	
 	@PostMapping
@@ -67,32 +90,56 @@ public class ClienteController {
             @ApiResponse(code = 201, message = "Adiciona o cliente com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao criar um novo cliente."),
     })
-	public ResponseEntity<ClienteDTO> createCliente(@RequestBody ClienteDTO clienteDTO) {
+	public ResponseEntity createCliente(@RequestBody ClienteDTO clienteDTO) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log POST (createCliente)"));
-		return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.create(clienteDTO));
+
+		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log POST (createCliente)");
+		historicoService.adicionaLog(logToSave, "sistema");
+
+		try {
+			return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.create(clienteDTO));
+		}catch (Exception err) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Falha ao criar o cliente.");
+		}
 	}
 	
 	@PutMapping("/update")
 	@ApiOperation("Atualiza o cliente.")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Atualiza o cliente com Sucesso."),
+            @ApiResponse(code = 200, message = "Atualiza o cliente com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao atualizar o cliente."),
     })
-	public ResponseEntity<ClienteDTO> updateCliente(@RequestBody ClienteDTO clienteDTO, @PathVariable Long id) {
+	public ResponseEntity updateCliente(@RequestBody ClienteDTO clienteDTO, @PathVariable Long id) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (updateCliente)"));
 		ClienteDTO cliente = clienteService.updateCliente(clienteDTO);
-		return ResponseEntity.status(HttpStatus.OK).body(cliente);
-	}	
+
+		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (updateCliente)");
+		historicoService.adicionaLog(logToSave, "sistema");
+
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(cliente);
+		}catch (NoSuchElementException err) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
+		}
+	}
 
 	@DeleteMapping("/delete/{id}")
 	@ApiOperation("Deleta um cliente.")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Sucesso ao deletar o cliente."),
+            @ApiResponse(code = 200, message = "Sucesso ao deletar o cliente."),
             @ApiResponse(code = 400, message = "Falha ao deletar um cliente."),
     })
 	public ResponseEntity<String> deleteCliente(@PathVariable Long id) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log DELETE (deleteCliente)"));
-		return ResponseEntity.status(HttpStatus.OK).body(clienteService.deleteCliente(id));
+
+		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log DELETE (deleteCliente)");
+		historicoService.adicionaLog(logToSave, "sistema");
+
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(clienteService.deleteCliente(id));
+		}catch (NoSuchElementException err) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
+		}
 	}
 	
 	@GetMapping("cep/{cep}")
