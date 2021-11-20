@@ -42,7 +42,6 @@ public class Cliente {
 	@Column
 	private boolean ativo = true;
 
-	
 	public Long getId() {
 		return id;
 	}

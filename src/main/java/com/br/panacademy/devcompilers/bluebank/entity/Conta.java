@@ -2,15 +2,12 @@ package com.br.panacademy.devcompilers.bluebank.entity;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
+@Table(name = "tb_conta")
 public class Conta {
 	
 	@Id
