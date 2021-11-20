@@ -1,5 +1,7 @@
 package com.br.panacademy.devcompilers.bluebank.controller;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.panacademy.devcompilers.bluebank.dto.ContaDTO;
@@ -38,14 +41,18 @@ public class ContaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(contaService.createConta(contaDTO));	
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/findById/{id}")
 	@ApiOperation("Retorna uma conta por ID.")
 	@ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Retorna a conta por ID com Sucesso."),
+            @ApiResponse(code = 200, message = "Retorna a conta por ID com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao buscar a conta por ID."),
     })
-	public ResponseEntity<ContaDTO> findByIdConta(@PathVariable Long id) {
-		return ResponseEntity.status(HttpStatus.OK).body(contaService.findByIdConta(id));
+	public ResponseEntity<Object> findByIdConta(@PathVariable Long id) {
+		try {
+            return ResponseEntity.status(HttpStatus.OK).body(contaService.findByIdConta(id));
+        }catch (NoSuchElementException err) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
+        }
 	}
 	
 	@PutMapping("/update")
@@ -67,5 +74,40 @@ public class ContaController {
     })
 	public ResponseEntity<String> deleteConta(@PathVariable Long id) {
 		return ResponseEntity.status(HttpStatus.OK).body(contaService.deleteConta(id));	
+	}
+	
+	@PutMapping("/sacar/{idConta}/{valor}")
+	public ResponseEntity<String> sacarConta(@PathVariable Long idConta, @PathVariable double valor) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(contaService.sacarConta(idConta, valor));
+		}catch (Exception err) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(contaService.sacarConta(idConta, valor));
+		}
+	}
+	
+	@PutMapping("/depositar/{idConta}/{valor}")
+	public ResponseEntity<String> depositarConta(@PathVariable Long idConta, @PathVariable double valor) {
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(contaService.depositaConta(idConta, valor));
+		}catch (Exception err) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(contaService.depositaConta(idConta, valor));
+		}
+	}
+	
+	@PutMapping("/tranferir/{valor}")
+	public ResponseEntity<String> transfereConta(
+			@RequestParam(value = "idContaOrigem") Long idContaOrigem,
+			@RequestParam(value = "idContaDestino") Long idContaDestino,
+			@PathVariable double valor) {
+
+		try {
+			return ResponseEntity
+					.status(HttpStatus.OK)
+					.body(contaService.transfereConta(idContaOrigem, idContaDestino, valor));
+		}catch (Exception err) {
+			return ResponseEntity
+					.status(HttpStatus.BAD_REQUEST)
+					.body(contaService.transfereConta(idContaOrigem, idContaDestino, valor));
+		}
 	}
 }

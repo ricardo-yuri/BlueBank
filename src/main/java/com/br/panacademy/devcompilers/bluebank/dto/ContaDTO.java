@@ -1,22 +1,72 @@
 package com.br.panacademy.devcompilers.bluebank.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class ContaDTO {
 
+	/*
+	public static class IdContaDTO implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
+		
+		private Long cpfUsuario;
+		private String agencia;
+		private String numeroConta;
+		
+		public IdContaDTO(Long cpfUsuario, String agencia, String numeroConta) {
+			this.cpfUsuario = cpfUsuario;
+			this.agencia = agencia;
+			this.numeroConta = numeroConta;
+		}
+
+		public Long getCpfUsuario() {
+			return cpfUsuario;
+		}
+
+		public void setCpfUsuario(Long cpfUsuario) {
+			this.cpfUsuario = cpfUsuario;
+		}
+
+		public String getAgencia() {
+			return agencia;
+		}
+
+		public void setAgencia(String agencia) {
+			this.agencia = agencia;
+		}
+
+		public String getNumeroConta() {
+			return numeroConta;
+		}
+
+		public void setNumeroConta(String numeroConta) {
+			this.numeroConta = numeroConta;
+		}
+			
+	}
+	
+	@NotNull
+	private IdContaDTO id;
+	*/
+	
 	private Long id;
+	
+	private String cpfUsuario;
 	
 	@NotEmpty
 	private String agencia;
 	
 	@NotEmpty
-	//@UniqueElements
-	private String numero;
+	private String numeroConta;
 	
 	@NotEmpty
 	private String tipoConta;
+	
+	private double saldo;
 	
 	private String senha;
 	
@@ -30,6 +80,14 @@ public class ContaDTO {
 		this.id = id;
 	}
 
+	public String getCpfUsuario() {
+		return cpfUsuario;
+	}
+
+	public void setCpfUsuario(String cpfUsuario) {
+		this.cpfUsuario = cpfUsuario;
+	}
+
 	public String getAgencia() {
 		return agencia;
 	}
@@ -38,12 +96,12 @@ public class ContaDTO {
 		this.agencia = agencia;
 	}
 
-	public String getNumero() {
-		return numero;
+	public String getNumeroConta() {
+		return numeroConta;
 	}
 
-	public void setNumero(String numero) {
-		this.numero = numero;
+	public void setNumeroConta(String numeroConta) {
+		this.numeroConta = numeroConta;
 	}
 
 	public String getTipoConta() {
@@ -52,6 +110,14 @@ public class ContaDTO {
 
 	public void setTipoConta(String tipoConta) {
 		this.tipoConta = tipoConta;
+	}
+
+	public double getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(double saldo) {
+		this.saldo = saldo;
 	}
 
 	public String getSenha() {
@@ -69,5 +135,4 @@ public class ContaDTO {
 	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
 	}
-	
 }
