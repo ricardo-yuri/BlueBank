@@ -34,9 +34,10 @@ public class HistoricoService {
                         .orElseThrow(() -> new NoSuchElementException("Histórico não encontrado."));
     }
 
-    public void adicionaLog(String log, String tipo) {
+    public void adicionaLog(String log, Long idConta, String tipo) {
         HistoricoDTO historico = new HistoricoDTO();
         historico.setLog(log);
+        historico.setIdConta(idConta);
         historico.setTipo(tipo);
         createLog(historico);
     }

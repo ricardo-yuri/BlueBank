@@ -62,8 +62,8 @@ public class ContaService {
 			conta.setSaldo(saldoAtual);
 			contaRespository.save(conta);
 
-			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(String.format("Saque -> conta ID: %d, valor: %f", idConta, valor));
-			historicoService.adicionaLog(logToSave, "transação");
+			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(String.format(" Saque -> conta ID: %d, valor: %f", idConta, valor));
+			historicoService.adicionaLog(logToSave, idConta, "saque");
 
 			return "Saque realizado!";
 		}else {
@@ -81,7 +81,10 @@ public class ContaService {
 		
 		conta.setSaldo(saldoAtual + valor);
 		contaRespository.save(conta);
-		
+
+		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(String.format(" Deposito -> conta ID: %d, valor: %f", idConta, valor));
+		historicoService.adicionaLog(logToSave, idConta, "deposito");
+
 		return "deposito realizado!";
 	}
 	
@@ -102,7 +105,11 @@ public class ContaService {
 			double saldoAtualContaDestino = contaDestino.getSaldo();
 			contaDestino.setSaldo(saldoAtualContaDestino + valor);
 			contaRespository.save(contaDestino);
-			
+
+			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(
+					String.format(" Transferência -> conta ID: %d, para conta com Id: %d, valor: %f", idContaOrigem, idContaDestino, valor));
+			historicoService.adicionaLog(logToSave, idContaOrigem, "deposito");
+
 			return "Transferência realizada com sucesso!";
 		}else {
 			return "Saldo insuficiente para a transferência!";

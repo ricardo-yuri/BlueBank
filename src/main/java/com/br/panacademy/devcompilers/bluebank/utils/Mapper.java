@@ -145,6 +145,7 @@ public class Mapper {
 
 		historicoDTO.setId(historicoEntity.getId());
 		historicoDTO.setLog(historicoEntity.getLog());
+		historicoDTO.setIdConta(historicoEntity.getIdConta());
 		historicoDTO.setTipo(historicoEntity.getTipo());
 		historicoDTO.setCreateAt(historicoEntity.getCreateAt());
 
@@ -156,6 +157,7 @@ public class Mapper {
 
 		historicoEntity.setId(historicoDTO.getId());
 		historicoEntity.setLog(historicoDTO.getLog());
+		historicoEntity.setIdConta(historicoDTO.getIdConta());
 		historicoEntity.setTipo(historicoDTO.getTipo());
 		historicoEntity.setCreateAt(historicoDTO.getCreateAt());
 

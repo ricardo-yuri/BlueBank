@@ -10,6 +10,8 @@ public class HistoricoDTO {
     @NotEmpty
     private String log;
 
+    private Long idConta;
+
     @NotEmpty
     private String tipo;
 
@@ -25,6 +27,14 @@ public class HistoricoDTO {
 
     public String getLog() {
         return log;
+    }
+
+    public Long getIdConta() {
+        return idConta;
+    }
+
+    public void setIdConta(Long idConta) {
+        this.idConta = idConta;
     }
 
     public void setLog(String log) {

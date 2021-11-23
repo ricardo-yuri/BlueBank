@@ -1,5 +1,7 @@
 package com.br.panacademy.devcompilers.bluebank.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -14,9 +16,13 @@ public class Historico {
     private String log;
 
     @Column
+    private Long idConta;
+
+    @Column
     private String tipo;
 
     @Column
+    @CreationTimestamp
     private LocalDateTime createAt;
 
     public Long getId() {
@@ -25,6 +31,14 @@ public class Historico {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdConta() {
+        return idConta;
+    }
+
+    public void setIdConta(Long idConta) {
+        this.idConta = idConta;
     }
 
     public String getLog() {
