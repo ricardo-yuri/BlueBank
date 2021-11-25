@@ -41,4 +41,8 @@ public class HistoricoService {
         historico.setTipo(tipo);
         createLog(historico);
     }
+
+    public List<Historico> listIdConta(Long id) {
+        return historicoRepository.findByIdConta(id);
+    }
 }

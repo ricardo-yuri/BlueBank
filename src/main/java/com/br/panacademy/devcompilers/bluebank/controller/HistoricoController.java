@@ -1,5 +1,6 @@
 package com.br.panacademy.devcompilers.bluebank.controller;
 
+import com.br.panacademy.devcompilers.bluebank.entity.Historico;
 import com.br.panacademy.devcompilers.bluebank.service.HistoricoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -44,6 +46,21 @@ public class HistoricoController {
 
         try {
             return ResponseEntity.status(HttpStatus.OK).body(historicoService.findAllLog());
+        }catch (NoSuchElementException err) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
+        }
+    }
+
+    @GetMapping("/list/{id}")
+    @ApiOperation("Retorna todo o histórico por Id da conta.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Retorna todo o histórico do da conta com Sucesso."),
+            @ApiResponse(code = 400, message = "Falha ao retornar o histórico da conta."),
+    })
+    public ResponseEntity listIdConta(@PathVariable Long id) {
+        try {
+            List<Historico> list = historicoService.listIdConta(id);
+            return ResponseEntity.status(HttpStatus.OK).body(list);
         }catch (NoSuchElementException err) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
         }

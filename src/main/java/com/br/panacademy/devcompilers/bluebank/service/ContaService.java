@@ -62,7 +62,8 @@ public class ContaService {
 			conta.setSaldo(saldoAtual);
 			contaRespository.save(conta);
 
-			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(String.format(" Saque -> conta ID: %d, valor: %f", idConta, valor));
+			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(
+					String.format(" Saque -> conta %s, valor: %f", conta.getNumeroConta(), valor));
 			historicoService.adicionaLog(logToSave, idConta, "saque");
 
 			return "Saque realizado!";
@@ -82,7 +83,8 @@ public class ContaService {
 		conta.setSaldo(saldoAtual + valor);
 		contaRespository.save(conta);
 
-		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(String.format(" Deposito -> conta ID: %d, valor: %f", idConta, valor));
+		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(
+				String.format(" Deposito -> conta %s, valor: %f", conta.getNumeroConta(), valor));
 		historicoService.adicionaLog(logToSave, idConta, "deposito");
 
 		return "deposito realizado!";
@@ -107,8 +109,12 @@ public class ContaService {
 			contaRespository.save(contaDestino);
 
 			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(
-					String.format(" Transferência -> conta ID: %d, para conta com Id: %d, valor: %f", idContaOrigem, idContaDestino, valor));
-			historicoService.adicionaLog(logToSave, idContaOrigem, "deposito");
+					String.format(" Transferência: -> conta %s para conta %s, valor: %f",
+							contaOrigem.getNumeroConta(),
+							contaDestino.getNumeroConta(),
+							valor)
+			);
+			historicoService.adicionaLog(logToSave, idContaOrigem, "transferencia");
 
 			return "Transferência realizada com sucesso!";
 		}else {

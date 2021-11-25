@@ -1,58 +1,16 @@
 package com.br.panacademy.devcompilers.bluebank.dto;
 
-import java.io.Serializable;
+import com.br.panacademy.devcompilers.bluebank.enums.TipoConta;
+import org.hibernate.validator.constraints.Length;
+
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class ContaDTO {
 
-	/*
-	public static class IdContaDTO implements Serializable {
-		
-		private static final long serialVersionUID = 1L;
-		
-		private Long cpfUsuario;
-		private String agencia;
-		private String numeroConta;
-		
-		public IdContaDTO(Long cpfUsuario, String agencia, String numeroConta) {
-			this.cpfUsuario = cpfUsuario;
-			this.agencia = agencia;
-			this.numeroConta = numeroConta;
-		}
-
-		public Long getCpfUsuario() {
-			return cpfUsuario;
-		}
-
-		public void setCpfUsuario(Long cpfUsuario) {
-			this.cpfUsuario = cpfUsuario;
-		}
-
-		public String getAgencia() {
-			return agencia;
-		}
-
-		public void setAgencia(String agencia) {
-			this.agencia = agencia;
-		}
-
-		public String getNumeroConta() {
-			return numeroConta;
-		}
-
-		public void setNumeroConta(String numeroConta) {
-			this.numeroConta = numeroConta;
-		}
-			
-	}
-	
-	@NotNull
-	private IdContaDTO id;
-	*/
-	
 	private Long id;
 	
 	private String cpfUsuario;
@@ -64,7 +22,7 @@ public class ContaDTO {
 	private String numeroConta;
 	
 	@NotEmpty
-	private String tipoConta;
+	private TipoConta tipoConta;
 	
 	private double saldo;
 	
@@ -104,11 +62,11 @@ public class ContaDTO {
 		this.numeroConta = numeroConta;
 	}
 
-	public String getTipoConta() {
+	public TipoConta getTipoConta() {
 		return tipoConta;
 	}
 
-	public void setTipoConta(String tipoConta) {
+	public void setTipoConta(TipoConta tipoConta) {
 		this.tipoConta = tipoConta;
 	}
 

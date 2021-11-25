@@ -32,6 +32,10 @@ public class Cliente {
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "id_contato")
+	private Contato contato;
+
 	@Column(nullable = false)
 	private TipoCliente tipoCliente;
 
@@ -76,7 +80,23 @@ public class Cliente {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
+	public Contato getContato() {
+		return contato;
+	}
+
+	public void setContato(Contato contato) {
+		this.contato = contato;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	public TipoCliente getTipoCliente() {
 		return tipoCliente;
 	}
@@ -96,6 +116,4 @@ public class Cliente {
 		return "Cliente [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", rg=" + rg + ", endereco=" + endereco
 				+ ", tipoCliente=" + tipoCliente + ", createAt=" + createAt + "]";
 	}
-
-	
 }
