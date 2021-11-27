@@ -2,6 +2,7 @@ package com.br.panacademy.devcompilers.bluebank.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -36,6 +37,10 @@ public class ClienteService {
 		Cliente cliente = verifyIfExists(id);
 
 		return Mapper.toDTO(cliente);
+	}
+
+	public Optional<Cliente> findCPFCliente(String cpf) {
+		return clienteRepository.findByCpf(cpf);
 	}
 
 	@Transactional

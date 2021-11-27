@@ -40,9 +40,6 @@ public class ClienteController {
 	@Autowired
 	DateUtil dateUtil;
 
-	@Autowired
-	private HistoricoService historicoService;
-
 	@GetMapping
 	@ApiOperation("Lista todos os clientes.")
 	@ApiResponses(value = {
@@ -51,9 +48,6 @@ public class ClienteController {
     })
 	public ResponseEntity findAll() {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findAll)"));
-
-		//String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findAll)");
-		//historicoService.adicionaLog(logToSave, "sistema");
 
 		try {
 			List<ClienteDTO> clientes = clienteService.findAll();
@@ -74,9 +68,6 @@ public class ClienteController {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findById)"));
 		ClienteDTO cliente = clienteService.findById(id);
 
-		//String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findById)");
-		//historicoService.adicionaLog(logToSave, "sistema");
-
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(cliente);
 		}catch (NoSuchElementException err) {
@@ -92,9 +83,6 @@ public class ClienteController {
     })
 	public ResponseEntity createCliente(@RequestBody ClienteDTO clienteDTO) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log POST (createCliente)"));
-
-		//String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log POST (createCliente)");
-		//historicoService.adicionaLog(logToSave, "sistema");
 
 		try {
 			return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.create(clienteDTO));
@@ -113,9 +101,6 @@ public class ClienteController {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (updateCliente)"));
 		ClienteDTO cliente = clienteService.updateCliente(clienteDTO);
 
-		//String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (updateCliente)");
-		//historicoService.adicionaLog(logToSave, "sistema");
-
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(cliente);
 		}catch (NoSuchElementException err) {
@@ -131,9 +116,6 @@ public class ClienteController {
     })
 	public ResponseEntity<String> deleteCliente(@PathVariable Long id) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log DELETE (deleteCliente)"));
-
-		//String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log DELETE (deleteCliente)");
-		//historicoService.adicionaLog(logToSave, "sistema");
 
 		try {
 			return ResponseEntity.status(HttpStatus.OK).body(clienteService.deleteCliente(id));

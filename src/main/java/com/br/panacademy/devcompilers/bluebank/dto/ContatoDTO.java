@@ -1,35 +1,23 @@
-package com.br.panacademy.devcompilers.bluebank.entity;
+package com.br.panacademy.devcompilers.bluebank.dto;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-public class Contato {
+public class ContatoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_contato")
     private Long id;
-
-    @Column
     private String telefone;
 
-    @Column(nullable = false)
-    @ElementCollection
+    @NotEmpty
     private List<String> celular;
-
     private String email;
-
-    @CreationTimestamp
     private LocalDateTime createAt;
 
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -53,6 +41,7 @@ public class Contato {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -60,6 +49,7 @@ public class Contato {
     public LocalDateTime getCreateAt() {
         return createAt;
     }
+
     public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }

@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.br.panacademy.devcompilers.bluebank.entity.Contato;
 import org.hibernate.validator.constraints.Length;
 
 import com.br.panacademy.devcompilers.bluebank.enums.TipoCliente;
@@ -22,7 +23,9 @@ public class ClienteDTO {
 	
 	@Length(max = 14)
 	private String rg;
-	
+
+	private ContatoDTO contato;
+
 	@NotEmpty
 	private EnderecoDTO endereco;
 	
@@ -63,6 +66,14 @@ public class ClienteDTO {
 		this.rg = rg;
 	}
 
+	public ContatoDTO getContato() {
+		return contato;
+	}
+
+	public void setContato(ContatoDTO contatoDTO) {
+		this.contato = contatoDTO;
+	}
+
 	public EnderecoDTO getEndereco() {
 		return endereco;
 	}
@@ -86,6 +97,18 @@ public class ClienteDTO {
 	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "ClienteDTO{" +
+				"id=" + id +
+				", nome='" + nome + '\'' +
+				", cpf='" + cpf + '\'' +
+				", rg='" + rg + '\'' +
+				", contato=" + contato +
+				", endereco=" + endereco +
+				", tipoCliente=" + tipoCliente +
+				", createAt=" + createAt +
+				'}';
+	}
 }

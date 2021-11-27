@@ -1,15 +1,9 @@
 package com.br.panacademy.devcompilers.bluebank.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -32,12 +26,16 @@ public class Cliente {
 	@JoinColumn(name = "id_endereco")
 	private Endereco endereco;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_contato")
 	private Contato contato;
 
 	@Column(nullable = false)
 	private TipoCliente tipoCliente;
+
+	@OneToMany
+	@JoinColumn(name = "id_conta")
+	private List<Conta> conta;
 
 	@Column
 	@CreationTimestamp
@@ -95,6 +93,14 @@ public class Cliente {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public List<Conta> getConta() {
+		return conta;
+	}
+
+	public void setConta(List<Conta> conta) {
+		this.conta = conta;
 	}
 
 	public TipoCliente getTipoCliente() {

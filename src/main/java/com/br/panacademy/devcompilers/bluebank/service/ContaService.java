@@ -2,9 +2,12 @@ package com.br.panacademy.devcompilers.bluebank.service;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.br.panacademy.devcompilers.bluebank.entity.Cliente;
+import com.br.panacademy.devcompilers.bluebank.repository.ClienteRepository;
 import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +23,26 @@ public class ContaService {
 	@Autowired
 	private ContaRepository contaRespository;
 	@Autowired
+	private ClienteRepository clienteRespository;
+	@Autowired
 	private DateUtil dateUtil;
 	@Autowired
 	private HistoricoService historicoService;
 
 	public ContaDTO createConta(ContaDTO contaDTO) {
-		Conta conta = contaRespository.save(Mapper.contaToEntity(contaDTO));
-		return Mapper.contaToDTO(conta);
+		Conta conta = new Conta();
+
+		Optional<Cliente> cliente = clienteRespository.findByCpf(contaDTO.getCpfUsuario());
+
+		if(cliente.isPresent()) {
+			conta = Mapper.contaToEntity(contaDTO);
+			conta.setCliente(cliente.get());
+		} else {
+			throw new NoSuchElementException("Cliente não encontrado");
+		}
+
+		Conta contaToSave = contaRespository.save(conta);
+		return Mapper.contaToDTO(contaToSave);
 	}
 	
 	public ContaDTO findByIdConta(Long id) {

@@ -15,8 +15,12 @@ public class Conta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String cpfUsuario;
+
+	@ManyToOne
+	@JoinColumn(name = "id_cliente")
+	private Cliente cliente;
 	
 	@Column(nullable = false)
 	private String agencia;
@@ -50,6 +54,14 @@ public class Conta {
 
 	public void setCpfUsuario(String cpfUsuario) {
 		this.cpfUsuario = cpfUsuario;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public String getAgencia() {

@@ -1,26 +1,20 @@
 package com.br.panacademy.devcompilers.bluebank.utils;
 
-import com.br.panacademy.devcompilers.bluebank.dto.HistoricoDTO;
-import com.br.panacademy.devcompilers.bluebank.entity.Historico;
+import com.br.panacademy.devcompilers.bluebank.dto.*;
+import com.br.panacademy.devcompilers.bluebank.entity.*;
 import org.springframework.http.ResponseEntity;
-
-import com.br.panacademy.devcompilers.bluebank.dto.ClienteDTO;
-import com.br.panacademy.devcompilers.bluebank.dto.ContaDTO;
-import com.br.panacademy.devcompilers.bluebank.dto.EnderecoDTO;
-import com.br.panacademy.devcompilers.bluebank.entity.Cliente;
-import com.br.panacademy.devcompilers.bluebank.entity.Conta;
-import com.br.panacademy.devcompilers.bluebank.entity.Endereco;
 
 public class Mapper {
 
 	public static Cliente toCliente(ClienteDTO clienteDTO) {
 		
 		Cliente cliente = new Cliente();
-		
+
 		cliente.setId(clienteDTO.getId());
 		cliente.setNome(clienteDTO.getNome());
 		cliente.setCpf(clienteDTO.getCpf());
 		cliente.setRg(clienteDTO.getRg());
+		cliente.setContato(contatoToEntity(clienteDTO.getContato()));
 		cliente.setEndereco(enderecoToEntity(clienteDTO.getEndereco()));
 		cliente.setTipoCliente(clienteDTO.getTipoCliente());
 		cliente.setCreateAt(clienteDTO.getCreateAt());
@@ -36,13 +30,38 @@ public class Mapper {
 		clienteDTO.setNome(cliente.getNome());
 		clienteDTO.setCpf(cliente.getCpf());
 		clienteDTO.setRg(cliente.getRg());
+		clienteDTO.setContato(contatoToDTO(cliente.getContato()));
 		clienteDTO.setEndereco(enderecoToDTO(cliente.getEndereco()));
 		clienteDTO.setTipoCliente(cliente.getTipoCliente());
 		clienteDTO.setCreateAt(cliente.getCreateAt());
 		
 		return clienteDTO;
 	}
-	
+
+	public static ContatoDTO contatoToDTO(Contato contatoEntity) {
+		ContatoDTO contatoDTO = new ContatoDTO();
+
+		contatoDTO.setId(contatoEntity.getId());
+		contatoDTO.setEmail(contatoEntity.getEmail());
+		contatoDTO.setTelefone(contatoEntity.getTelefone());
+		contatoDTO.setCelular(contatoEntity.getCelular());
+		contatoDTO.setCreateAt(contatoEntity.getCreateAt());
+
+		return contatoDTO;
+	}
+
+	public static Contato contatoToEntity(ContatoDTO contatoDTO) {
+		Contato contato = new Contato();
+
+		contato.setId(contatoDTO.getId());
+		contato.setEmail(contatoDTO.getEmail());
+		contato.setTelefone(contatoDTO.getTelefone());
+		contato.setCelular(contatoDTO.getCelular());
+		contato.setCreateAt(contatoDTO.getCreateAt());
+
+		return contato;
+	}
+
 	public static EnderecoDTO enderecoToDTO(Endereco endereco) {
 		EnderecoDTO enderecoDTO = new EnderecoDTO();
 		
@@ -129,7 +148,7 @@ public class Mapper {
 				contaEntity.getId().getNumeroConta());
 		*/
 		contaDTO.setId(contaEntity.getId());
-		contaDTO.setCpfUsuario(contaEntity.getCpfUsuario());
+		contaDTO.setCpfUsuario(contaEntity.getCliente().getCpf());
 		contaDTO.setAgencia(contaEntity.getAgencia());
 		contaDTO.setNumeroConta(contaEntity.getNumeroConta());
 		contaDTO.setTipoConta(contaEntity.getTipoConta());
