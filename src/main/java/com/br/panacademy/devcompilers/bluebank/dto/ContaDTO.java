@@ -3,22 +3,24 @@ package com.br.panacademy.devcompilers.bluebank.dto;
 import com.br.panacademy.devcompilers.bluebank.enums.TipoConta;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 public class ContaDTO {
 
 	private Long id;
-	
+
+	@NotEmpty
+	@NotNull
+	@Length(min = 11, max = 14)
 	private String cpfUsuario;
 	
 	@NotEmpty
+	@Length(max = 10)
 	private String agencia;
-	
-	@NotEmpty
+
+	@Length(max = 12)
 	private String numeroConta;
 	
 	@NotEmpty

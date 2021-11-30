@@ -4,6 +4,7 @@ package com.br.panacademy.devcompilers.bluebank.controller;
 import java.util.NoSuchElementException;
 
 
+import com.br.panacademy.devcompilers.bluebank.exceptions.OperacaoIlegalException;
 import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,10 +75,14 @@ public class ContaController {
             @ApiResponse(code = 201, message = "Atualiza a conta com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao atualizar a conta."),
     })
-	public ResponseEntity<ContaDTO> updateConta(@RequestBody ContaDTO contaDTO) {
+	public ResponseEntity updateConta(@RequestBody ContaDTO contaDTO) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (updateConta)"));
-		ContaDTO contaToUpdate = contaService.updateConta(contaDTO);
-		return ResponseEntity.status(HttpStatus.OK).body(contaToUpdate);
+		try {
+			ContaDTO contaToUpdate = contaService.updateConta(contaDTO);
+			return ResponseEntity.status(HttpStatus.OK).body(contaToUpdate);
+		}catch (NoSuchElementException | IllegalArgumentException err) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
+		}
 	}
 	
 	@DeleteMapping("/delete/{id}")
@@ -88,7 +93,11 @@ public class ContaController {
     })
 	public ResponseEntity<String> deleteConta(@PathVariable Long id) {
 		log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log DELETE (deleteConta)"));
-		return ResponseEntity.status(HttpStatus.OK).body(contaService.deleteConta(id));
+		try {
+			return ResponseEntity.status(HttpStatus.OK).body(contaService.deleteConta(id));
+		}catch (OperacaoIlegalException err) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
+		}
 	}
 	
 	@PutMapping("/sacar/{idConta}/{valor}")

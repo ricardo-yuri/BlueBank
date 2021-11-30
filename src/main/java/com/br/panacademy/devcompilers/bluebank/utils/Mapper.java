@@ -120,15 +120,8 @@ public class Mapper {
 	
 	public static Conta contaToEntity(ContaDTO contaDTO) {
 		Conta contaEntity = new Conta();
-		/*
-		Conta.IdConta idConta = new Conta.IdConta(
-				contaDTO.getId().getCpfUsuario(), 
-				contaDTO.getId().getAgencia(), 
-				contaDTO.getId().getNumeroConta());
-		*/
-		
+
 		contaEntity.setId(contaDTO.getId());
-		contaEntity.setCpfUsuario(contaDTO.getCpfUsuario());
 		contaEntity.setAgencia(contaDTO.getAgencia());
 		contaEntity.setNumeroConta(contaDTO.getNumeroConta());
 		contaEntity.setTipoConta(contaDTO.getTipoConta());
@@ -141,12 +134,7 @@ public class Mapper {
 	
 	public static ContaDTO contaToDTO(Conta contaEntity) {
 		ContaDTO contaDTO = new ContaDTO();
-		/*
-		ContaDTO.IdContaDTO idContaDTO = new ContaDTO.IdContaDTO(
-				contaEntity.getId().getCpfUsuario(), 
-				contaEntity.getId().getAgencia(), 
-				contaEntity.getId().getNumeroConta());
-		*/
+
 		contaDTO.setId(contaEntity.getId());
 		contaDTO.setCpfUsuario(contaEntity.getCliente().getCpf());
 		contaDTO.setAgencia(contaEntity.getAgencia());

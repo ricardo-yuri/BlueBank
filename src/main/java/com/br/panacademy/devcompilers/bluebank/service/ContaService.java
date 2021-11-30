@@ -1,21 +1,22 @@
 package com.br.panacademy.devcompilers.bluebank.service;
 
-import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
+import com.br.panacademy.devcompilers.bluebank.dto.ContaDTO;
 import com.br.panacademy.devcompilers.bluebank.entity.Cliente;
+import com.br.panacademy.devcompilers.bluebank.entity.Conta;
+import com.br.panacademy.devcompilers.bluebank.exceptions.OperacaoIlegalException;
 import com.br.panacademy.devcompilers.bluebank.repository.ClienteRepository;
+import com.br.panacademy.devcompilers.bluebank.repository.ContaRepository;
 import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
+import com.br.panacademy.devcompilers.bluebank.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.br.panacademy.devcompilers.bluebank.dto.ContaDTO;
-import com.br.panacademy.devcompilers.bluebank.entity.Conta;
-import com.br.panacademy.devcompilers.bluebank.repository.ContaRepository;
-import com.br.panacademy.devcompilers.bluebank.utils.Mapper;
+import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class ContaService {
@@ -30,13 +31,14 @@ public class ContaService {
 	private HistoricoService historicoService;
 
 	public ContaDTO createConta(ContaDTO contaDTO) {
-		Conta conta = new Conta();
+		Conta conta;
 
 		Optional<Cliente> cliente = clienteRespository.findByCpf(contaDTO.getCpfUsuario());
 
 		if(cliente.isPresent()) {
 			conta = Mapper.contaToEntity(contaDTO);
 			conta.setCliente(cliente.get());
+			conta.setNumeroConta(geraNumeroConta());
 		} else {
 			throw new NoSuchElementException("Cliente não encontrado");
 		}
@@ -52,8 +54,19 @@ public class ContaService {
 	}
 	
 	public ContaDTO updateConta(ContaDTO contaDTO) {
-		Conta conta = verifyIfExists(contaDTO.getId());
-		Conta contaSaved = contaRespository.save(conta);
+		Conta contaUpdate = verifyIfExists(contaDTO.getId());
+
+		//Não deve permitir alterar o titular da conta
+		if(!contaUpdate.getCliente().getCpf().equals(contaDTO.getCpfUsuario())) {
+			throw new OperacaoIlegalException("Não é permitido mudar o titular da conta!");
+		}
+
+		//Não deve permitir alterar o número da conta
+		if(!contaUpdate.getNumeroConta().equals(contaDTO.getNumeroConta())) {
+			throw new OperacaoIlegalException("Não é permitido alterar o número da conta!");
+		}
+
+		Conta contaSaved = contaRespository.save(contaUpdate);
 
 		return Mapper.contaToDTO(contaSaved);
 	}
@@ -61,11 +74,16 @@ public class ContaService {
 	public String deleteConta(Long id) {
 		Conta contaToDelete = verifyIfExists(id);
 
-		contaRespository.delete(contaToDelete);
+		if(contaToDelete.getSaldo() > 0) {
+			throw new OperacaoIlegalException("Não é permitido deletar uma conta com saldo!");
+		}
 
-		return String.format("Conta con Id: %d deletada!", id);
+		contaToDelete.setDeletada(true);
+		contaRespository.save(contaToDelete);
+
+		return String.format("Conta com Id: %d deletada!", id);
 	}
-	
+
 	//Método sacar
 	public String sacarConta(Long idConta, double valor) {
 		//Conta existe?
@@ -140,14 +158,17 @@ public class ContaService {
 	}
 	
 	private Conta verifyIfExists(Long id) {
-		return contaRespository.findById(id)
+		return contaRespository.findByIdAndDeletadaIsFalse(id)
 				.orElseThrow(() -> new NoSuchElementException("Conta não encontrada."));
 	}
 	
 	private boolean isSaldoSuficiente(double saldo, double valor) {
-		if((saldo - valor) > 0) 
-			return true;
-		
+		if((saldo - valor) >= 0) return true;
+
 		return false;
+	}
+
+	private String geraNumeroConta() {
+		return new Timestamp(new Date().getTime()).toString();
 	}
 }
