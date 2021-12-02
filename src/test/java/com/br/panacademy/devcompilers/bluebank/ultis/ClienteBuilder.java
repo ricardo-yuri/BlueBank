@@ -7,7 +7,7 @@ import com.br.panacademy.devcompilers.bluebank.enums.TipoCliente;
 
 import java.util.List;
 
-public class ClienteBuild {
+public class ClienteBuilder {
 
     public static Cliente criaCliente() {
         Cliente cliente = new Cliente();
@@ -15,15 +15,16 @@ public class ClienteBuild {
         cliente.setNome("Cliente 1");
         cliente.setCpf("000.000.000-00");
         cliente.setRg("00.00.00-00");
-        cliente.setEndereco(retornaEnderecoSemId());
+        cliente.setEndereco(criaEndereco());
         cliente.setTipoCliente(TipoCliente.PESSOA_FISICA);
 
         return cliente;
     }
 
-    private static Endereco retornaEnderecoSemId() {
+    private static Endereco criaEndereco() {
         Endereco endereco = new Endereco();
 
+        endereco.setId(1L);
         endereco.setCep("00000-000");
         endereco.setLogradouro("Rua: x");
         endereco.setComplemento("Casa");
@@ -33,7 +34,7 @@ public class ClienteBuild {
         return endereco;
     }
 
-    private static Contato retornaContatoSemId() {
+    private static Contato criaContato() {
         Contato contato = new Contato();
 
         contato.setCelular(List.of("123456789"));

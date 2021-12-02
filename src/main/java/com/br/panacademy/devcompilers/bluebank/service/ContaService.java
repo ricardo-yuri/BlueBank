@@ -6,13 +6,13 @@ import com.br.panacademy.devcompilers.bluebank.entity.Conta;
 import com.br.panacademy.devcompilers.bluebank.exceptions.OperacaoIlegalException;
 import com.br.panacademy.devcompilers.bluebank.repository.ClienteRepository;
 import com.br.panacademy.devcompilers.bluebank.repository.ContaRepository;
-import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
 import com.br.panacademy.devcompilers.bluebank.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -25,8 +25,7 @@ public class ContaService {
 	private ContaRepository contaRespository;
 	@Autowired
 	private ClienteRepository clienteRespository;
-	@Autowired
-	private DateUtil dateUtil;
+
 	@Autowired
 	private HistoricoService historicoService;
 
@@ -86,7 +85,9 @@ public class ContaService {
 
 	//Método sacar
 	public String sacarConta(Long idConta, double valor) {
-		//Conta existe?
+
+		if(isValorInvalido(valor)) return "Valor para saque inválido!";
+
 		Conta conta = verifyIfExists(idConta);
 
 		double saldoAtual = conta.getSaldo();
@@ -94,10 +95,12 @@ public class ContaService {
 		if(isSaldoSuficiente(saldoAtual, valor)) {
 			saldoAtual -= valor;
 			conta.setSaldo(saldoAtual);
+
 			contaRespository.save(conta);
 
-			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(
-					String.format(" Saque -> conta %s, valor: %f", conta.getNumeroConta(), valor));
+			String logToSave =
+					String.format(MessageFormat.format("{0} Saque -> conta %s, valor: %f",
+							LocalDateTime.now()), conta.getNumeroConta(), valor);
 			historicoService.adicionaLog(logToSave, idConta, "saque");
 
 			return "Saque realizado!";
@@ -108,8 +111,8 @@ public class ContaService {
 	
 	//Método depositar
 	public String depositaConta(Long idConta, double valor) {
-		//Conta existe?
-		if(valor < 0.01) return "Valor deposito inválido!"; 
+
+		if(isValorInvalido(valor)) return "Valor para deposito inválido!";
 				
 		Conta conta = verifyIfExists(idConta);
 		double saldoAtual = conta.getSaldo();
@@ -117,8 +120,9 @@ public class ContaService {
 		conta.setSaldo(saldoAtual + valor);
 		contaRespository.save(conta);
 
-		String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(
-				String.format(" Deposito -> conta %s, valor: %f", conta.getNumeroConta(), valor));
+		String logToSave =
+				String.format(MessageFormat.format("{0} Deposito -> conta %s, valor: %f",
+						LocalDateTime.now()), conta.getNumeroConta(), valor);
 		historicoService.adicionaLog(logToSave, idConta, "deposito");
 
 		return "deposito realizado!";
@@ -128,7 +132,9 @@ public class ContaService {
 	//TODO Revisar a anotação @Transactional
 	@Transactional
 	public String transfereConta(Long idContaOrigem, Long idContaDestino, double valor) {
-		//ContaOrigem e ContaDestino existem?
+
+		if(isValorInvalido(valor)) return "Valor para transferência inválido!";
+
 		Conta contaOrigem = verifyIfExists(idContaOrigem);
 		Conta contaDestino = verifyIfExists(idContaDestino);
 		
@@ -142,12 +148,13 @@ public class ContaService {
 			contaDestino.setSaldo(saldoAtualContaDestino + valor);
 			contaRespository.save(contaDestino);
 
-			String logToSave = dateUtil.dateFormatted(LocalDateTime.now()).concat(
-					String.format(" Transferência: -> conta %s para conta %s, valor: %f",
+			String logToSave =
+					String.format(MessageFormat.format("{0} Transferência: -> conta %s para conta %s, valor: %f",
+							LocalDateTime.now()),
 							contaOrigem.getNumeroConta(),
 							contaDestino.getNumeroConta(),
-							valor)
-			);
+							valor);
+
 			historicoService.adicionaLog(logToSave, idContaOrigem, "transferencia");
 
 			return "Transferência realizada com sucesso!";
@@ -159,11 +166,17 @@ public class ContaService {
 	
 	private Conta verifyIfExists(Long id) {
 		return contaRespository.findByIdAndDeletadaIsFalse(id)
-				.orElseThrow(() -> new NoSuchElementException("Conta não encontrada."));
+				.orElseThrow(() -> new NoSuchElementException(String.format("Conta com ID: %d não encontrada!", id)));
 	}
 	
 	private boolean isSaldoSuficiente(double saldo, double valor) {
 		if((saldo - valor) >= 0) return true;
+
+		return false;
+	}
+
+	private boolean isValorInvalido(double valor) {
+		if(valor < 0.01) return true;
 
 		return false;
 	}

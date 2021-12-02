@@ -2,7 +2,6 @@ package com.br.panacademy.devcompilers.bluebank.entity;
 
 import com.br.panacademy.devcompilers.bluebank.enums.TipoConta;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,9 +14,6 @@ public class Conta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	//@Column(nullable = false)
-	//private String cpfUsuario;
 
 	@ManyToOne
 	@JoinColumn(name = "id_cliente")
@@ -52,15 +48,6 @@ public class Conta {
 		this.id = id;
 	}
 
-	/*
-	public String getCpfUsuario() {
-		return cpfUsuario;
-	}
-
-	public void setCpfUsuario(String cpfUsuario) {
-		this.cpfUsuario = cpfUsuario;
-	}
-	*/
 	public Cliente getCliente() {
 		return cliente;
 	}
