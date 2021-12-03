@@ -15,13 +15,14 @@ public class Contato {
     @Column(name = "id_contato")
     private Long id;
 
-    @Column
+    @Column(length = 15)
     private String telefone;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 15)
     @ElementCollection
     private List<String> celular;
 
+    @Column(length = 100)
     private String email;
 
     @CreationTimestamp
@@ -30,6 +31,7 @@ public class Contato {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -53,6 +55,7 @@ public class Contato {
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -60,6 +63,7 @@ public class Contato {
     public LocalDateTime getCreateAt() {
         return createAt;
     }
+
     public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }

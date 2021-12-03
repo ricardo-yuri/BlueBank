@@ -14,9 +14,7 @@ import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ContaService {
@@ -37,12 +35,21 @@ public class ContaService {
 		if(cliente.isPresent()) {
 			conta = Mapper.contaToEntity(contaDTO);
 			conta.setCliente(cliente.get());
-			conta.setNumeroConta(geraNumeroConta());
+			conta.setNumeroConta(geraNumeroConta(cliente.get().getId()));
+
+
 		} else {
 			throw new NoSuchElementException("Cliente não encontrado");
 		}
 
 		Conta contaToSave = contaRespository.save(conta);
+
+		List<Conta> cc = cliente.get().getConta();
+		cc.add(contaToSave);
+
+		cliente.get().setConta(cc);
+		clienteRespository.save(cliente.get());
+
 		return Mapper.contaToDTO(contaToSave);
 	}
 	
@@ -181,7 +188,10 @@ public class ContaService {
 		return false;
 	}
 
-	private String geraNumeroConta() {
-		return new Timestamp(new Date().getTime()).toString();
+	private String geraNumeroConta(Long idCliente) {
+		Random gerador = new Random();
+		//TODO ver uma forma alternativa de gerar número conta.
+		String num = String.valueOf(gerador.nextInt(999999)) + idCliente;
+		return num;
 	}
 }

@@ -19,10 +19,10 @@ public class Conta {
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 4)
 	private String agencia;
 	
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length = 12)
 	private String numeroConta;
 
 	@Column(nullable = false)
@@ -107,5 +107,20 @@ public class Conta {
 	}
 	public void setCreateAt(LocalDateTime createAt) {
 		this.createAt = createAt;
+	}
+
+	@Override
+	public String toString() {
+		return "Conta{" +
+				"id=" + id +
+				", cliente=" + cliente +
+				", agencia='" + agencia + '\'' +
+				", numeroConta='" + numeroConta + '\'' +
+				", tipoConta=" + tipoConta +
+				", saldo=" + saldo +
+				", deletada=" + deletada +
+				", senha='" + senha + '\'' +
+				", createAt=" + createAt +
+				'}';
 	}
 }

@@ -32,6 +32,9 @@ class ContaServiceTest {
     @Mock
     private ClienteRepository clienteRepository;
 
+    @Mock
+    private HistoricoService historicoService;
+
     @InjectMocks
     private ContaService contaService;
 

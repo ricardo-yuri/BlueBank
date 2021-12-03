@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import com.br.panacademy.devcompilers.bluebank.entity.Conta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,9 +35,7 @@ public class ClienteService {
 	}
 
 	public ClienteDTO findById(Long id) {
-		Cliente cliente = verifyIfExists(id);
-
-		return Mapper.toDTO(cliente);
+		return Mapper.toDTO(verifyIfExists(id));
 	}
 
 	public Optional<Cliente> findCPFCliente(String cpf) {
@@ -60,9 +59,20 @@ public class ClienteService {
 	}
 
 	public String deleteCliente(Long id) {
-		verifyIfExists(id);
+		Cliente cliente = verifyIfExists(id);
 
-		clienteRepository.deleteById(id);
+		boolean contaAtiva = false;
+		System.out.println("Contas: " + cliente.getConta());
+		for (Conta conta : cliente.getConta()) {
+			if(conta.isDeletada()) {
+				contaAtiva = true;
+				break;
+			}
+		}
+
+		if(contaAtiva) return String.format("Cliente com conta ativa!", id);
+
+		//clienteRepository.deleteById(id);
 
 		return String.format("Cliente com ID: %d deletado!", id);
 	}
