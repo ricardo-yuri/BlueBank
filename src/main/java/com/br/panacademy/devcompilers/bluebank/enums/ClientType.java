@@ -1,16 +1,16 @@
 package com.br.panacademy.devcompilers.bluebank.enums;
 
-public enum TipoCliente {
+public enum ClientType {
+
 	PESSOA_FISICA(1, "Pessoa Fisica"),
 	PESSOA_JURIDICA(2, "Pessoa Juridica");
 	
 	private Integer id;
-	private String descricao;
-	
-	
-	private TipoCliente(Integer id, String descricao) {
+	private String description;
+
+	ClientType(Integer id, String description) {
 		this.id = id;
-		this.descricao = descricao;
+		this.description = description;
 	}
 	
 	public Integer getId() {
@@ -19,11 +19,12 @@ public enum TipoCliente {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getDescricao() {
-		return descricao;
+
+	public String getDescription() {
+		return description;
 	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 }

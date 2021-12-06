@@ -4,7 +4,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-public class EnderecoDTO {
+public class AddressDTO {
 
 	private Long id;
 	

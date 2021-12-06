@@ -6,168 +6,164 @@ import org.springframework.http.ResponseEntity;
 
 public class Mapper {
 
-	public static Cliente toCliente(ClienteDTO clienteDTO) {
+	public static Client toClient(ClientDTO clientDTO) {
 		
-		Cliente cliente = new Cliente();
+		Client client = new Client();
 
-		cliente.setId(clienteDTO.getId());
-		cliente.setNome(clienteDTO.getNome());
-		cliente.setCpf(clienteDTO.getCpf());
-		cliente.setRg(clienteDTO.getRg());
-		cliente.setContato(contatoToEntity(clienteDTO.getContato()));
-		cliente.setEndereco(enderecoToEntity(clienteDTO.getEndereco()));
-		cliente.setTipoCliente(clienteDTO.getTipoCliente());
-		cliente.setCreateAt(clienteDTO.getCreateAt());
+		client.setId(clientDTO.getId());
+		client.setName(clientDTO.getName());
+		client.setCpf(clientDTO.getCpfUser());
+		client.setRg(clientDTO.getRg());
+		client.setContato(toContact(clientDTO.getContact()));
+		client.setEndereco(toAddress(clientDTO.getAddress()));
+		client.setTipoCliente(clientDTO.getClientType());
+		client.setCreateAt(clientDTO.getCreateAt());
 		
-		return cliente;
+		return client;
 	}
 	
-	public static ClienteDTO toDTO(Cliente cliente) {
+	public static ClientDTO toClientDTO(Client client) {
 		
-		ClienteDTO clienteDTO = new ClienteDTO();
+		ClientDTO clientDTO = new ClientDTO();
 		
-		clienteDTO.setId(cliente.getId());
-		clienteDTO.setNome(cliente.getNome());
-		clienteDTO.setCpf(cliente.getCpf());
-		clienteDTO.setRg(cliente.getRg());
-		clienteDTO.setContato(contatoToDTO(cliente.getContato()));
-		clienteDTO.setEndereco(enderecoToDTO(cliente.getEndereco()));
-		clienteDTO.setTipoCliente(cliente.getTipoCliente());
-		clienteDTO.setCreateAt(cliente.getCreateAt());
+		clientDTO.setId(client.getId());
+		clientDTO.setName(client.getName());
+		clientDTO.setCpfUser(client.getCpf());
+		clientDTO.setRg(client.getRg());
+		clientDTO.setContact(toContactDTO(client.getContato()));
+		clientDTO.setAddress(toAddressDTO(client.getEndereco()));
+		clientDTO.setClientType(client.getTipoCliente());
+		clientDTO.setCreateAt(client.getCreateAt());
 		
-		return clienteDTO;
+		return clientDTO;
 	}
 
-	public static ContatoDTO contatoToDTO(Contato contatoEntity) {
-		ContatoDTO contatoDTO = new ContatoDTO();
+	public static ContactDTO toContactDTO(Contact contactEntity) {
+		ContactDTO contactDTO = new ContactDTO();
 
-		contatoDTO.setId(contatoEntity.getId());
-		contatoDTO.setEmail(contatoEntity.getEmail());
-		contatoDTO.setTelefone(contatoEntity.getTelefone());
-		contatoDTO.setCelular(contatoEntity.getCelular());
-		contatoDTO.setCreateAt(contatoEntity.getCreateAt());
+		contactDTO.setId(contactEntity.getId());
+		contactDTO.setEmail(contactEntity.getEmail());
+		contactDTO.setTelefone(contactEntity.getTelephone());
+		contactDTO.setCelular(contactEntity.getCell());
+		contactDTO.setCreateAt(contactEntity.getCreateAt());
 
-		return contatoDTO;
+		return contactDTO;
 	}
 
-	public static Contato contatoToEntity(ContatoDTO contatoDTO) {
-		Contato contato = new Contato();
+	public static Contact toContact(ContactDTO contactDTO) {
+		Contact contact = new Contact();
 
-		contato.setId(contatoDTO.getId());
-		contato.setEmail(contatoDTO.getEmail());
-		contato.setTelefone(contatoDTO.getTelefone());
-		contato.setCelular(contatoDTO.getCelular());
-		contato.setCreateAt(contatoDTO.getCreateAt());
+		contact.setId(contactDTO.getId());
+		contact.setEmail(contactDTO.getEmail());
+		contact.setTelephone(contactDTO.getTelefone());
+		contact.setCell(contactDTO.getCelular());
+		contact.setCreateAt(contactDTO.getCreateAt());
 
-		return contato;
+		return contact;
 	}
 
-	public static EnderecoDTO enderecoToDTO(Endereco endereco) {
-		EnderecoDTO enderecoDTO = new EnderecoDTO();
+	public static AddressDTO toAddressDTO(Address address) {
+		AddressDTO addressDTO = new AddressDTO();
 		
-		enderecoDTO.setId(endereco.getId());
-		enderecoDTO.setCep(endereco.getCep());
-		enderecoDTO.setLogradouro(endereco.getLogradouro());
-		enderecoDTO.setComplemento(endereco.getComplemento());
-		enderecoDTO.setLocalidade(endereco.getLocalidade());
-		enderecoDTO.setUf(endereco.getUf());
-		enderecoDTO.setBairro(endereco.getBairro());
+		addressDTO.setId(address.getId());
+		addressDTO.setCep(address.getCep());
+		addressDTO.setLogradouro(address.getPublicPlace());
+		addressDTO.setComplemento(address.getComplement());
+		addressDTO.setLocalidade(address.getLocality());
+		addressDTO.setUf(address.getUf());
+		addressDTO.setBairro(address.getDistrict());
 		
-		return enderecoDTO;
-	}
-	
-	public static Endereco enderecoToEntity(EnderecoDTO enderecoDTO) {
-		Endereco enderecoEntity = new Endereco();
-		
-		enderecoEntity.setId(enderecoDTO.getId());
-		enderecoEntity.setCep(enderecoDTO.getCep());
-		enderecoEntity.setLogradouro(enderecoDTO.getLogradouro());
-		enderecoEntity.setComplemento(enderecoDTO.getComplemento());
-		enderecoEntity.setLocalidade(enderecoDTO.getLocalidade());
-		enderecoEntity.setUf(enderecoDTO.getUf());
-		enderecoEntity.setBairro(enderecoDTO.getBairro());
-		
-		return enderecoEntity;
+		return addressDTO;
 	}
 	
-	public static Endereco responseEntityEnderecoToEntity(ResponseEntity<EnderecoDTO> enderecoDTO) {
-		Endereco enderecoEntity = new Endereco();
+	public static Address toAddress(AddressDTO addressDTO) {
+		Address addressEntity = new Address();
 		
-		enderecoEntity.setId(enderecoDTO.getBody().getId());
-		enderecoEntity.setCep(enderecoDTO.getBody().getCep());
-		enderecoEntity.setLogradouro(enderecoDTO.getBody().getLogradouro());
-		enderecoEntity.setComplemento(enderecoDTO.getBody().getComplemento());
-		enderecoEntity.setLocalidade(enderecoDTO.getBody().getLocalidade());
-		enderecoEntity.setUf(enderecoDTO.getBody().getUf());
-		enderecoEntity.setBairro(enderecoDTO.getBody().getBairro());
+		addressEntity.setId(addressDTO.getId());
+		addressEntity.setCep(addressDTO.getCep());
+		addressEntity.setPublicPlace(addressDTO.getLogradouro());
+		addressEntity.setComplement(addressDTO.getComplemento());
+		addressEntity.setLocality(addressDTO.getLocalidade());
+		addressEntity.setUf(addressDTO.getUf());
+		addressEntity.setDistrict(addressDTO.getBairro());
 		
-		return enderecoEntity;
+		return addressEntity;
 	}
 	
-	public static EnderecoDTO responseEntityEnderecoToDTO(ResponseEntity<EnderecoDTO> endereco) {
-		EnderecoDTO enderecoDTO = new EnderecoDTO();
+	public static Address responseEntityAddressToEntity(ResponseEntity<AddressDTO> addressDTO) {
+		Address addressEntity = new Address();
 		
-		enderecoDTO.setId(endereco.getBody().getId());
-		enderecoDTO.setCep(endereco.getBody().getCep());
-		enderecoDTO.setLogradouro(endereco.getBody().getLogradouro());
-		enderecoDTO.setComplemento(endereco.getBody().getComplemento());
-		enderecoDTO.setLocalidade(endereco.getBody().getLocalidade());
-		enderecoDTO.setUf(endereco.getBody().getUf());
-		enderecoDTO.setBairro(endereco.getBody().getBairro());
+		addressEntity.setId(addressDTO.getBody().getId());
+		addressEntity.setCep(addressDTO.getBody().getCep());
+		addressEntity.setPublicPlace(addressDTO.getBody().getLogradouro());
+		addressEntity.setComplement(addressDTO.getBody().getComplemento());
+		addressEntity.setLocality(addressDTO.getBody().getLocalidade());
+		addressEntity.setUf(addressDTO.getBody().getUf());
+		addressEntity.setDistrict(addressDTO.getBody().getBairro());
 		
-		return enderecoDTO;
+		return addressEntity;
 	}
 	
-	public static Conta contaToEntity(ContaDTO contaDTO) {
-		Conta contaEntity = new Conta();
-
-		contaEntity.setId(contaDTO.getId());
-		contaEntity.setAgencia(contaDTO.getAgencia());
-		contaEntity.setNumeroConta(contaDTO.getNumeroConta());
-		contaEntity.setTipoConta(contaDTO.getTipoConta());
-		contaEntity.setSaldo(contaDTO.getSaldo());
-		contaEntity.setSenha(contaDTO.getSenha());
-		contaEntity.setCreateAt(contaDTO.getCreateAt());
+	public static AddressDTO responseEntityAddressToDTO(ResponseEntity<AddressDTO> address) {
+		AddressDTO addressDTO = new AddressDTO();
 		
-		return contaEntity;
+		addressDTO.setId(address.getBody().getId());
+		addressDTO.setCep(address.getBody().getCep());
+		addressDTO.setLogradouro(address.getBody().getLogradouro());
+		addressDTO.setComplemento(address.getBody().getComplemento());
+		addressDTO.setLocalidade(address.getBody().getLocalidade());
+		addressDTO.setUf(address.getBody().getUf());
+		addressDTO.setBairro(address.getBody().getBairro());
+		
+		return addressDTO;
 	}
 	
-	public static ContaDTO contaToDTO(Conta contaEntity) {
-		ContaDTO contaDTO = new ContaDTO();
+	public static Account toAccount(AccountDTO accountDTO) {
+		Account accountEntity = new Account();
 
-		contaDTO.setId(contaEntity.getId());
-		contaDTO.setCpfUsuario(contaEntity.getCliente().getCpf());
-		contaDTO.setAgencia(contaEntity.getAgencia());
-		contaDTO.setNumeroConta(contaEntity.getNumeroConta());
-		contaDTO.setTipoConta(contaEntity.getTipoConta());
-		contaDTO.setSaldo(contaEntity.getSaldo());
-		contaDTO.setSenha(contaEntity.getSenha());
-		contaDTO.setCreateAt(contaEntity.getCreateAt());
+		accountEntity.setId(accountDTO.getId());
+		accountEntity.setAgency(accountDTO.getAgency());
+		accountEntity.setAccountNumber(accountDTO.getAccountNumber());
+		accountEntity.setAccountType(accountDTO.getAccountType());
+		accountEntity.setAccountBalance(accountDTO.getAccountBalance());
+		accountEntity.setCreateAt(accountDTO.getCreateAt());
 		
-		return contaDTO;
+		return accountEntity;
+	}
+	
+	public static AccountDTO toAccountDTO(Account accountEntity) {
+		AccountDTO accountDTO = new AccountDTO();
+
+		accountDTO.setId(accountEntity.getId());
+		accountDTO.setCpfUser(accountEntity.getClient().getCpf());
+		accountDTO.setAgency(accountEntity.getAgency());
+		accountDTO.setAccountNumber(accountEntity.getAccountNumber());
+		accountDTO.setAccountType(accountEntity.getAccountType());
+		accountDTO.setAccountBalance(accountEntity.getAccountBalance());
+		accountDTO.setCreateAt(accountEntity.getCreateAt());
+		
+		return accountDTO;
 	}
 
-	public static HistoricoDTO historicoToDTO(Historico historicoEntity) {
-		HistoricoDTO historicoDTO = new HistoricoDTO();
+	public static HistoricDTO toHistoricDTO(Historic historicEntity) {
+		HistoricDTO historicDTO = new HistoricDTO();
 
-		historicoDTO.setId(historicoEntity.getId());
-		historicoDTO.setLog(historicoEntity.getLog());
-		historicoDTO.setIdConta(historicoEntity.getIdConta());
-		historicoDTO.setTipo(historicoEntity.getTipo());
-		historicoDTO.setCreateAt(historicoEntity.getCreateAt());
+		historicDTO.setId(historicEntity.getId());
+		historicDTO.setLog(historicEntity.getLog());
+		historicDTO.setOperationType(historicEntity.getOperationType());
+		historicDTO.setCreateAt(historicEntity.getCreateAt());
 
-		return historicoDTO;
+		return historicDTO;
 	}
 
-	public static Historico historicoToEntity(HistoricoDTO historicoDTO) {
-		Historico historicoEntity = new Historico();
+	public static Historic toHistoric(HistoricDTO historicDTO) {
+		Historic historicEntity = new Historic();
 
-		historicoEntity.setId(historicoDTO.getId());
-		historicoEntity.setLog(historicoDTO.getLog());
-		historicoEntity.setIdConta(historicoDTO.getIdConta());
-		historicoEntity.setTipo(historicoDTO.getTipo());
-		historicoEntity.setCreateAt(historicoDTO.getCreateAt());
+		historicEntity.setId(historicDTO.getId());
+		historicEntity.setLog(historicDTO.getLog());
+		historicEntity.setOperationType(historicDTO.getOperationType());
+		historicEntity.setCreateAt(historicDTO.getCreateAt());
 
-		return historicoEntity;
+		return historicEntity;
 	}
 }

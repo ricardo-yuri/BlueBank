@@ -1,20 +1,14 @@
 package com.br.panacademy.devcompilers.bluebank.dto;
 
-import javax.validation.constraints.NotEmpty;
+import com.br.panacademy.devcompilers.bluebank.enums.OperationType;
+
 import java.time.LocalDateTime;
 
-public class HistoricoDTO {
+public class HistoricDTO {
 
     private Long id;
-
-    @NotEmpty
     private String log;
-
-    private Long idConta;
-
-    @NotEmpty
-    private String tipo;
-
+    private OperationType operationType;
     private LocalDateTime createAt;
 
     public Long getId() {
@@ -29,24 +23,16 @@ public class HistoricoDTO {
         return log;
     }
 
-    public Long getIdConta() {
-        return idConta;
-    }
-
-    public void setIdConta(Long idConta) {
-        this.idConta = idConta;
-    }
-
     public void setLog(String log) {
         this.log = log;
     }
 
-    public String getTipo() {
-        return tipo;
+    public OperationType getOperationType() {
+        return operationType;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setOperationType(OperationType operationType) {
+        this.operationType = operationType;
     }
 
     public LocalDateTime getCreateAt() {

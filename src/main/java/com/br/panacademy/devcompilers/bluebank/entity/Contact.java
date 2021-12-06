@@ -4,63 +4,56 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-public class Historico {
+@Table(name = "tb_contact")
+public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_contact")
     private Long id;
-
+    @Column
+    private String telephone;
     @Column(nullable = false)
-    private String log;
-
-    @Column
-    private Long idConta;
-
-    @Column
-    private String tipo;
-
-    @Column
+    @ElementCollection
+    private List<String> cell;
+    private String email;
     @CreationTimestamp
     private LocalDateTime createAt;
 
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getIdConta() {
-        return idConta;
+    public String getTelephone() {
+        return telephone;
+    }
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
-    public void setIdConta(Long idConta) {
-        this.idConta = idConta;
+    public List<String> getCell() {
+        return cell;
+    }
+    public void setCell(List<String> cell) {
+        this.cell = cell;
     }
 
-    public String getLog() {
-        return log;
+    public String getEmail() {
+        return email;
     }
-
-    public void setLog(String log) {
-        this.log = log;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public LocalDateTime getCreateAt() {
         return createAt;
     }
-
     public void setCreateAt(LocalDateTime createAt) {
         this.createAt = createAt;
     }

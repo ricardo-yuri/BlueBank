@@ -4,7 +4,7 @@ import java.util.NoSuchElementException;
 
 public class AccountNotFoundException extends NoSuchElementException {
 	
-	public AccountNotFoundException(String accountNumber) {
-		super(String.format("A conta $s não foi encontrada!", accountNumber));
+	public AccountNotFoundException(Long id) {
+		super(String.format("Conta com Id: %d não cadastrada!", id));
 	}
 }

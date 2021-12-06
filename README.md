@@ -52,7 +52,7 @@ Para executar o projeto, será necessário instalar os seguintes programas:
 	<tr>
 		<td>GET</td>
 		<td>/api/clientes/cep/{cep}</td>
-		<td>Retornar as informações de endereço através do CEP. Utilzamos a API do Via CEP</td>
+		<td>Retornar as informações de endereço através do CEP</td>
 	</tr>
 	<tr>
 		<td>DELETE</td>
@@ -65,69 +65,56 @@ Para executar o projeto, será necessário instalar os seguintes programas:
 		<td>Atualizar cliente</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>POST</td>
+		<td>/api/contas</td>
+		<td>Criar uma nova conta</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>Delete</td>
+		<td>/api/contas/delete/{id}</td>
+		<td>Deletar uma conta </td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>PUT</td>
+		<td>/api/contas/depositar/{idConta}/{valor}</td>
+		<td>Depositar uma conta</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>GET</td>
+		<td>/api/contas/findById/{id}</td>
+		<td>Retornar uma conta por Id</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>PUT</td>
+		<td>/api/contas/sacar/{idConta}/{valor}</td>
+		<td>Sacar valor de uma conta
+	</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>PUT</td>
+		<td>/api/contas/transferir/{valor}</td>
+		<td>Transferir Valor de uma conta</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>PUT</td>
+		<td>/api/contas/update</td>
+		<td>Atualizar uma conta</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>GET</td>
+		<td>/api/historico/{id}</td>
+		<td>Retornar um histórico por ID</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>GET</td>
+		<td>/api/historico/findall</td>
+		<td>Retornar todos os logs da aplicação</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
+		<td>GET</td>
+		<td>/api/historico/list/{id}</td>
+		<td>Retornar todo o histórico por id da conta</td>
 	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-		<td>&nbsp;</td>
-	</tr>
-	<tbody>
+	
+	
 </table>

@@ -4,7 +4,7 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ContatoDTO {
+public class ContactDTO {
 
     private Long id;
     private String telefone;
