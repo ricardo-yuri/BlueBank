@@ -20,15 +20,15 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_address")
 	private Long id;
-	@Column
+	@Column(length = 9)
 	private String cep;
-	@Column
+	@Column(length = 50)
 	private String publicPlace;
-	@Column
+	@Column(length = 50)
 	private String complement;
-	@Column
+	@Column(length = 50)
 	private String district;
-	@Column
+	@Column(length = 50)
 	private String locality;
 	@Column(length = 2)
 	private String uf;

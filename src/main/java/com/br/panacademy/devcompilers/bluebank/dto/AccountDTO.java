@@ -10,18 +10,24 @@ import java.time.LocalDateTime;
 public class AccountDTO {
 
 	private Long id;
-	@NotEmpty
+
+	@NotEmpty(message = "O campo CPF do usuário não pode ser nulo ou vazio.")
 	@NotNull
-	@Length(min = 11, max = 14)
+	@Length(min = 11, max = 14, message = "O campo CPF deve ter entre 11 e 14 caracteres.")
 	private String cpfUser;
-	@NotEmpty
-	@Length(max = 10)
+
+	@NotEmpty(message = "O campo agência não pode ser nulo ou vazio.")
+	@Length(max = 10, message = "O campo agência não pode ter mais de 10 caracteres.")
 	private String agency;
-	@Length(max = 12)
+
+	@Length(max = 12, message = "O campo número da conta não pode ter mais de 12 caracteres.")
 	private String accountNumber;
-	@NotEmpty
+
+	@NotNull(message = "O campo tipo de conta não pode ser nulo ou vazio.")
 	private AccountType accountType;
+
 	private double accountBalance;
+
 	private LocalDateTime createAt;
 
 	public Long getId() {

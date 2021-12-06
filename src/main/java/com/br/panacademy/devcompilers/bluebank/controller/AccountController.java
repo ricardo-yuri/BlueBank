@@ -2,10 +2,8 @@ package com.br.panacademy.devcompilers.bluebank.controller;
 
 
 import com.br.panacademy.devcompilers.bluebank.dto.AccountDTO;
-import com.br.panacademy.devcompilers.bluebank.exceptions.AccountNotFoundException;
-import com.br.panacademy.devcompilers.bluebank.exceptions.OperationIllegalException;
 import com.br.panacademy.devcompilers.bluebank.service.AccountService;
-import com.br.panacademy.devcompilers.bluebank.utils.DateUtil;
+import com.br.panacademy.devcompilers.bluebank.utils.DateFormatted;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -17,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 
 @Log4j2
 @RestController
@@ -28,8 +24,6 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private DateUtil dateUtil;
 
     @PostMapping
     @ApiOperation("Cria uma nova conta.")
@@ -37,8 +31,8 @@ public class AccountController {
             @ApiResponse(code = 201, message = "Cria a conta com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao criar a conta."),
     })
-    public ResponseEntity<AccountDTO> createAccount(@RequestBody AccountDTO accountDTO) {
-        log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log POST (createAccount)"));
+    public ResponseEntity<AccountDTO> createAccount(@RequestBody @Valid AccountDTO accountDTO) {
+        log.info(DateFormatted.dateFormattedLogger().concat(" Log POST (createAccount)"));
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.createAccount(accountDTO));
     }
 
@@ -49,28 +43,21 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao buscar a conta por ID."),
     })
     public ResponseEntity<Object> findByIdAccount(@PathVariable Long id) {
-        log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log GET (findByIdAccount)"));
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.findByIdAccount(id));
-        } catch (AccountNotFoundException err) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
-        }
+        log.info(DateFormatted.dateFormattedLogger().concat(" Log GET (findByIdAccount)"));
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.findByIdAccount(id));
     }
 
     @PutMapping("/update")
     @ApiOperation("Atualiza uma conta.")
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Atualiza a conta com Sucesso."),
+            @ApiResponse(code = 200, message = "Atualiza a conta com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao atualizar a conta."),
     })
-    public ResponseEntity updateAccount(@RequestBody AccountDTO accountDTO) {
-        log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (updateAccount)"));
-        try {
-            AccountDTO accountToUpdate = accountService.updateAccount(accountDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(accountToUpdate);
-        } catch (AccountNotFoundException | OperationIllegalException err) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
-        }
+    public ResponseEntity updateAccount(@RequestBody @Valid AccountDTO accountDTO) {
+        log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (updateAccount)"));
+
+        AccountDTO accountToUpdate = accountService.updateAccount(accountDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(accountToUpdate);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -80,32 +67,23 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao deletar a conta."),
     })
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
-        log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log DELETE (deleteAccount)"));
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.deleteAccount(id));
-        } catch (AccountNotFoundException | OperationIllegalException err) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
-        }
+        log.info(DateFormatted.dateFormattedLogger().concat(" Log DELETE (deleteAccount)"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.deleteAccount(id));
     }
 
     @PutMapping("/withdraw/{idAccount}/{value}")
     public ResponseEntity<String> withdrawAccount(@PathVariable Long idAccount, @PathVariable double value) {
-        log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (withdrawAccount)"));
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.withdrawAccount(idAccount, value));
-        } catch (AccountNotFoundException | OperationIllegalException err) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
-        }
+        log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (withdrawAccount)"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.withdrawAccount(idAccount, value));
     }
 
     @PutMapping("/deposit/{idAccount}/{value}")
     public ResponseEntity<String> depositAccount(@PathVariable Long idAccount, @PathVariable double value) {
-        log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (depositAccount)"));
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.depositAccount(idAccount, value));
-        } catch (AccountNotFoundException | OperationIllegalException err) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
-        }
+        log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (depositAccount)"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.depositAccount(idAccount, value));
     }
 
     @PutMapping("/transfer")
@@ -113,16 +91,11 @@ public class AccountController {
             @RequestParam(value = "idOriginAccount") Long idOriginAccount,
             @RequestParam(value = "idDestinationAccount") Long idDestinationAccount,
             @RequestParam(value = "value") double value) {
-        log.info(dateUtil.dateFormatted(LocalDateTime.now()).concat(" Log PUT (transferAccount)"));
-        try {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(accountService.transferAccount(idOriginAccount, idDestinationAccount, value));
-        } catch (AccountNotFoundException | OperationIllegalException err) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(err.getMessage());
-        }
+        log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (transferAccount)"));
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountService.transferAccount(idOriginAccount, idDestinationAccount, value));
     }
 
     @GetMapping("/historic/list/{id}")
@@ -132,24 +105,21 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao listar o histórico da conta."),
     })
     public ResponseEntity listHistoric(@PathVariable Long id) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.listHistoricIdAccount(id));
-        } catch(NoSuchElementException err) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
-        }
-    }
 
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.listHistoricIdAccount(id));
+    }
+/*
     @GetMapping("/historic/{id}")
     @ApiOperation("Retorna todo o histórico por Id da conta.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna o histórico da conta por Id com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao retornar o histórico por Id da conta."),
     })
-    public ResponseEntity findByIdAccountHistoric(@PathVariable Long id) {
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(accountService.findByIdAccountHistoric(id));
-        } catch(NoSuchElementException err) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err.getMessage());
-        }
+
+    public ResponseEntity findByDateHistoric(@RequestParam(name = "day") int day, @RequestParam(name = "month") int month) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.findByDateHistoric(day, month));
     }
+
+ */
 }
