@@ -34,7 +34,7 @@ public class ClientController {
 	})
 
 	public ResponseEntity createClient(@RequestBody @Valid ClientDTO clientDTO) {
-		log.info(DateFormatted.dateFormattedLogger().concat(" Log POST (create Client)"));
+		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log POST (create Client)"));
 		return ResponseEntity.status(HttpStatus.CREATED).body(clientService.createClient(clientDTO));
 	}
 
@@ -45,7 +45,7 @@ public class ClientController {
             @ApiResponse(code = 400, message = "Falha ao listar clientes."),
     })
 	public ResponseEntity findAll() {
-		log.info(DateFormatted.dateFormattedLogger().concat(" Log GET (findAll)"));
+		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log GET (findAll)"));
 
 		List<ClientDTO> clients = clientService.findAllClient();
 		return ResponseEntity.status(200).body(clients);
@@ -58,7 +58,7 @@ public class ClientController {
             @ApiResponse(code = 400, message = "Falha ao buscar o cliente por ID."),
     })
 	public ResponseEntity findById(@PathVariable Long id) {
-		log.info(DateFormatted.dateFormattedLogger().concat(" Log GET (findById)"));
+		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log GET (findById)"));
 		ClientDTO client = clientService.findByIdClient(id);
 
 		return ResponseEntity.status(HttpStatus.OK).body(client);
@@ -71,7 +71,7 @@ public class ClientController {
             @ApiResponse(code = 400, message = "Falha ao atualizar o cliente."),
     })
 	public ResponseEntity updateClient(@RequestBody @Valid ClientDTO clientDTO, @PathVariable Long id) {
-		log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (updateClient)"));
+		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (updateClient)"));
 		ClientDTO client = clientService.updateClient(clientDTO);
 
 		return ResponseEntity.status(HttpStatus.OK).body(client);
@@ -84,14 +84,14 @@ public class ClientController {
             @ApiResponse(code = 400, message = "Falha ao deletar um cliente."),
     })
 	public ResponseEntity<String> deleteClient(@PathVariable Long id) {
-		log.info(DateFormatted.dateFormattedLogger().concat(" Log DELETE (deleteClient)"));
+		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log DELETE (deleteClient)"));
 
 		return ResponseEntity.status(HttpStatus.OK).body(clientService.deleteClient(id));
 	}
 	
 	@GetMapping("/cep/{cep}")
 	public ResponseEntity<AddressDTO> findAddressByCep(@PathVariable Integer cep) {
-		log.info(DateFormatted.dateFormattedLogger().concat(" Log GET CEP (findAddressByCep)"));
+		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log GET CEP (findAddressByCep)"));
 		return ResponseEntity.status(HttpStatus.OK).body(clientService.findAddressByCep(cep));
 	}
 	

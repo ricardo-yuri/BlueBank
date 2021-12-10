@@ -36,13 +36,7 @@ public class Account {
 
 	@Column(columnDefinition = "boolean default false")
 	private boolean deleted;
-/*
-	@ManyToMany
-	@JoinTable(name="account_historic", joinColumns=
-			{@JoinColumn(name="id_client")}, inverseJoinColumns=
-			{@JoinColumn(name="id_historic")})
-	private List<Historic> historic;
-*/
+
 	@OneToMany
 	private List<Historic> historic;
 

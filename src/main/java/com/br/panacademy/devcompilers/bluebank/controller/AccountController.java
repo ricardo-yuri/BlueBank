@@ -32,7 +32,7 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao criar a conta."),
     })
     public ResponseEntity<AccountDTO> createAccount(@RequestBody @Valid AccountDTO accountDTO) {
-        log.info(DateFormatted.dateFormattedLogger().concat(" Log POST (createAccount)"));
+        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log POST (createAccount)"));
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.createAccount(accountDTO));
     }
 
@@ -43,7 +43,7 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao buscar a conta por ID."),
     })
     public ResponseEntity<Object> findByIdAccount(@PathVariable Long id) {
-        log.info(DateFormatted.dateFormattedLogger().concat(" Log GET (findByIdAccount)"));
+        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log GET (findByIdAccount)"));
         return ResponseEntity.status(HttpStatus.OK).body(accountService.findByIdAccount(id));
     }
 
@@ -54,7 +54,7 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao atualizar a conta."),
     })
     public ResponseEntity updateAccount(@RequestBody @Valid AccountDTO accountDTO) {
-        log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (updateAccount)"));
+        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (updateAccount)"));
 
         AccountDTO accountToUpdate = accountService.updateAccount(accountDTO);
         return ResponseEntity.status(HttpStatus.OK).body(accountToUpdate);
@@ -67,21 +67,21 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao deletar a conta."),
     })
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
-        log.info(DateFormatted.dateFormattedLogger().concat(" Log DELETE (deleteAccount)"));
+        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log DELETE (deleteAccount)"));
 
         return ResponseEntity.status(HttpStatus.OK).body(accountService.deleteAccount(id));
     }
 
     @PutMapping("/withdraw/{idAccount}/{value}")
     public ResponseEntity<String> withdrawAccount(@PathVariable Long idAccount, @PathVariable double value) {
-        log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (withdrawAccount)"));
+        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (withdrawAccount)"));
 
         return ResponseEntity.status(HttpStatus.OK).body(accountService.withdrawAccount(idAccount, value));
     }
 
     @PutMapping("/deposit/{idAccount}/{value}")
     public ResponseEntity<String> depositAccount(@PathVariable Long idAccount, @PathVariable double value) {
-        log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (depositAccount)"));
+        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (depositAccount)"));
 
         return ResponseEntity.status(HttpStatus.OK).body(accountService.depositAccount(idAccount, value));
     }
@@ -91,7 +91,7 @@ public class AccountController {
             @RequestParam(value = "idOriginAccount") Long idOriginAccount,
             @RequestParam(value = "idDestinationAccount") Long idDestinationAccount,
             @RequestParam(value = "value") double value) {
-        log.info(DateFormatted.dateFormattedLogger().concat(" Log PUT (transferAccount)"));
+        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (transferAccount)"));
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -109,17 +109,18 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(accountService.listHistoricIdAccount(id));
     }
 /*
-    @GetMapping("/historic/{id}")
+    @GetMapping("/historic")
     @ApiOperation("Retorna todo o histórico por Id da conta.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna o histórico da conta por Id com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao retornar o histórico por Id da conta."),
     })
 
-    public ResponseEntity findByDateHistoric(@RequestParam(name = "day") int day, @RequestParam(name = "month") int month) {
-
-        return ResponseEntity.status(HttpStatus.OK).body(accountService.findByDateHistoric(day, month));
+    public ResponseEntity findByDateHistoric(
+            @RequestParam(name = "idAccount") Long idAccount,
+            @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        System.out.println("Data: " + date);
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.findByDateHistoric(idAccount, date));
     }
-
- */
+*/
 }

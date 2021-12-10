@@ -5,12 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class DateFormatted {
 
-    public static String dateFormattedHistoric() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        return LocalDateTime.now().format(formatter);
-    }
-
-    public static String dateFormattedLogger() {
+    public static String currentDateFormattedPtBr() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         return LocalDateTime.now().format(formatter);
     }

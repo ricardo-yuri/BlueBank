@@ -1,5 +1,6 @@
 package com.br.panacademy.devcompilers.bluebank.exceptions;
 
+import com.amazonaws.services.sns.model.AmazonSNSException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.UnexpectedTypeException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -51,6 +53,48 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ClientNotFoundException.class)
     protected ResponseEntity<ExceptionDetails> handleClientNotFoundException(ClientNotFoundException exception) {
+        return new ResponseEntity<>(
+                ExceptionDetails.builder()
+                        .title("Bad Request Exception. " + exception.getLocalizedMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .timestamp(LocalDateTime.now())
+                        .details(exception.getMessage())
+                        .developerMessage(exception.getClass().getName())
+                        .build(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<ExceptionDetails> handleConstraintViolationException(ConstraintViolationException exception) {
+        return new ResponseEntity<>(
+                ExceptionDetails.builder()
+                        .title("Bad Request Exception. " + exception.getLocalizedMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .timestamp(LocalDateTime.now())
+                        .details(exception.getMessage())
+                        .developerMessage(exception.getClass().getName())
+                        .build(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ExceptionDetails> handleIllegalArgumentException(IllegalArgumentException exception) {
+        return new ResponseEntity<>(
+                ExceptionDetails.builder()
+                        .title("Bad Request Exception. " + exception.getLocalizedMessage())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .timestamp(LocalDateTime.now())
+                        .details(exception.getMessage())
+                        .developerMessage(exception.getClass().getName())
+                        .build(),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler(AmazonSNSException.class)
+    protected ResponseEntity<ExceptionDetails> handleAmazonSNSException(AmazonSNSException exception) {
         return new ResponseEntity<>(
                 ExceptionDetails.builder()
                         .title("Bad Request Exception. " + exception.getLocalizedMessage())

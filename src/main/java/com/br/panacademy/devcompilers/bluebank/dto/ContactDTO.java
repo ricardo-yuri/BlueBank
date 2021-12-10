@@ -1,5 +1,6 @@
 package com.br.panacademy.devcompilers.bluebank.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,6 +12,8 @@ public class ContactDTO {
 
     @NotEmpty
     private List<String> celular;
+    @NotEmpty(message = "O campmo e-mail não pode ser vazio ou nulo!")
+    @Email
     private String email;
     private LocalDateTime createAt;
 
