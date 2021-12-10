@@ -61,7 +61,7 @@ Para executar o projeto, será necessário instalar os seguintes programas:
 	</tr>
 	<tr>
 		<td>PUT</td>
-		<td>/api/clientes/update</td>
+		<td>/api/clients/update</td>
 		<td>Atualizar cliente</td>
 	</tr>
 	<tr>
