@@ -2,6 +2,7 @@ package com.br.panacademy.devcompilers.bluebank.entity;
 
 import com.br.panacademy.devcompilers.bluebank.enums.AccountType;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,10 +22,10 @@ public class Account {
 	@JoinColumn(name = "id_client")
 	private Client client;
 	
-	@Column(nullable = false)
+	@Column(nullable = false, length = 10)
 	private String agency;
-	
-	@Column(nullable = false, unique = true)
+
+	@Column(nullable = false, unique = true, length = 12)
 	private String accountNumber;
 
 	@Column(nullable = false)
@@ -35,13 +36,7 @@ public class Account {
 
 	@Column(columnDefinition = "boolean default false")
 	private boolean deleted;
-/*
-	@ManyToMany
-	@JoinTable(name="account_historic", joinColumns=
-			{@JoinColumn(name="id_client")}, inverseJoinColumns=
-			{@JoinColumn(name="id_historic")})
-	private List<Historic> historic;
-*/
+
 	@OneToMany
 	private List<Historic> historic;
 

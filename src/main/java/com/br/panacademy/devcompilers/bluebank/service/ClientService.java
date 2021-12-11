@@ -1,27 +1,25 @@
 package com.br.panacademy.devcompilers.bluebank.service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-
+import com.br.panacademy.devcompilers.bluebank.dto.AddressDTO;
+import com.br.panacademy.devcompilers.bluebank.dto.ClientDTO;
 import com.br.panacademy.devcompilers.bluebank.entity.Account;
+import com.br.panacademy.devcompilers.bluebank.entity.Client;
 import com.br.panacademy.devcompilers.bluebank.exceptions.ClientNotFoundException;
 import com.br.panacademy.devcompilers.bluebank.exceptions.OperationIllegalException;
 import com.br.panacademy.devcompilers.bluebank.repository.AccountRepository;
+import com.br.panacademy.devcompilers.bluebank.repository.AddressRepository;
+import com.br.panacademy.devcompilers.bluebank.repository.ClientRepository;
+import com.br.panacademy.devcompilers.bluebank.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.br.panacademy.devcompilers.bluebank.dto.ClientDTO;
-import com.br.panacademy.devcompilers.bluebank.dto.AddressDTO;
-import com.br.panacademy.devcompilers.bluebank.entity.Client;
-import com.br.panacademy.devcompilers.bluebank.repository.ClientRepository;
-import com.br.panacademy.devcompilers.bluebank.repository.AddressRepository;
-import com.br.panacademy.devcompilers.bluebank.utils.Mapper;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -33,7 +31,7 @@ public class ClientService {
 	private AccountRepository accountRepository;
 
 	@Autowired
-	AddressRepository addressRepository;
+	private AddressRepository addressRepository;
 
 	public List<ClientDTO> findAllClient() {
 		return clientRepository.findAll().stream().map(Mapper::toClientDTO).collect(Collectors.toList());
@@ -54,6 +52,7 @@ public class ClientService {
 			throw new OperationIllegalException("Cliente já cadastrado!");
 
 		Client client = clientRepository.save(Mapper.toClient(clientDTO));
+
 		return Mapper.toClientDTO(client);
 	}
 

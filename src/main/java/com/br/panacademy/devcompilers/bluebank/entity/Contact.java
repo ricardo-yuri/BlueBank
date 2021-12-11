@@ -19,6 +19,7 @@ public class Contact {
     @Column(nullable = false)
     @ElementCollection
     private List<String> cell;
+    @Column(nullable = false, unique = true)
     private String email;
     @CreationTimestamp
     private LocalDateTime createAt;

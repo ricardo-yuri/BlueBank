@@ -11,6 +11,7 @@ import com.br.panacademy.devcompilers.bluebank.exceptions.OperationIllegalExcept
 import com.br.panacademy.devcompilers.bluebank.repository.AccountRepository;
 import com.br.panacademy.devcompilers.bluebank.repository.ClientRepository;
 import com.br.panacademy.devcompilers.bluebank.repository.HistoricRepository;
+import com.br.panacademy.devcompilers.bluebank.utils.DateFormatted;
 import com.br.panacademy.devcompilers.bluebank.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,8 +92,8 @@ public class AccountService {
             accountRepository.save(account);
 
             String logToSave =
-                    String.format(MessageFormat.format("{0} Saque -> conta %s, valor: %f",
-                            dateHistoric()), account.getAccountNumber(), formatValueHistoric(valor));
+                    String.format(MessageFormat.format("{0} Saque -> conta %s, valor: %s",
+                            DateFormatted.currentDateFormattedPtBr()), account.getAccountNumber(), formatValueHistoric(valor));
 
             createHistoric(logToSave, account, OperationType.SAQUE);
 
@@ -105,7 +107,7 @@ public class AccountService {
     //Método depositar
     public String depositAccount(Long idConta, double valor) {
 
-        if (isValorInvalido(valor)) return "Valor para deposito inválido!";
+        if (isValorInvalido(valor)) return "Valor para depósito inválido!";
 
         Account account = verifyIfExists(idConta);
         double saldoAtual = account.getAccountBalance();
@@ -113,11 +115,11 @@ public class AccountService {
         accountRepository.save(account);
 
         String logToSave =
-                String.format(MessageFormat.format("{0} Deposito -> conta: %s, valor: %s",
-                        dateHistoric()), account.getAccountNumber(), formatValueHistoric(valor));
+                String.format(MessageFormat.format("{0} Depósito -> conta: %s, valor: %s",
+                        DateFormatted.currentDateFormattedPtBr()), account.getAccountNumber(), formatValueHistoric(valor));
         createHistoric(logToSave, account, OperationType.DEPOSITO);
 
-        return "deposito realizado!";
+        return "depósito realizado!";
     }
 
     //Método transferir
@@ -134,19 +136,21 @@ public class AccountService {
         if (isSaldoSuficiente(saldoAtualContaOrigem, valor)) {
             accountOrigem.setAccountBalance(saldoAtualContaOrigem - valor);
             accountRepository.save(accountOrigem);
+
             double saldoAtualContaDestino = accountDestino.getAccountBalance();
             accountDestino.setAccountBalance(saldoAtualContaDestino + valor);
             accountRepository.save(accountDestino);
+
             String logAccountOrigin =
-                    String.format(MessageFormat.format("{0} Transferência: -> conta: %s para conta %s, valor: %f",
-                            dateHistoric()),
+                    String.format(MessageFormat.format("{0} Transferência: -> conta: %s para conta %s, valor: %s",
+                            DateFormatted.currentDateFormattedPtBr()),
                             accountOrigem.getAccountNumber(),
                             accountDestino.getAccountNumber(),
                             formatValueHistoric(valor));
 
             String logAccountDestination =
-                    String.format(MessageFormat.format("{0} Transferência: Transferência recebida da conta: %s no valor de %f",
-                            dateHistoric()),
+                    String.format(MessageFormat.format("{0} Transferência: Transferência recebida da conta: %s no valor de %s",
+                            DateFormatted.currentDateFormattedPtBr()),
                             accountOrigem.getAccountNumber(),
                             formatValueHistoric(valor));
 
@@ -158,15 +162,17 @@ public class AccountService {
             return "Saldo insuficiente para a transferência!";
         }
     }
-    //TODO mudar essa consulta para buscar por data
-    public HistoricDTO findByIdAccountHistoric(Long id) {
-        return
-                historicRepository.findByIdAndIdAccount(id, 1L)
-                        .map(Mapper::toHistoricDTO)
-                        .orElseThrow(() -> new NoSuchElementException(
-                                String.format("Histórico com ID: %d não encontrado!", id)));
-    }
+/*
+    public List<HistoricDTO> findByDateHistoric(Long idAccount, LocalDate date) {
+        Optional<List<Historic>> listHistoric = historicRepository.findByCreationDate(idAccount, date);
 
+        if(listHistoric.isEmpty()) throw new AccountNotFoundException(idAccount);
+
+        return listHistoric.get().stream()
+                .map(Mapper::toHistoricDTO)
+                .collect(Collectors.toList());
+    }
+*/
     public List<HistoricDTO> listHistoricIdAccount(Long id) {
         Optional<List<Historic>> listHistoric = historicRepository.findAllByIdAccount(id);
 
@@ -182,7 +188,7 @@ public class AccountService {
         historic.setLog(log);
         historic.setIdAccount(account.getId());
         historic.setOperationType(type);
-
+        System.out.println(account.getHistoric());
         account.getHistoric().add(historic);
 
         historicRepository.save(historic);
@@ -213,10 +219,5 @@ public class AccountService {
     private String formatValueHistoric(Double value) {
         DecimalFormat numberFormat = new DecimalFormat("#.00");
         return numberFormat.format(value);
-    }
-
-    private String dateHistoric() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        return LocalDateTime.now().format(formatter);
     }
 }

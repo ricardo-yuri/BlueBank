@@ -6,6 +6,7 @@ import com.br.panacademy.devcompilers.bluebank.entity.Client;
 import com.br.panacademy.devcompilers.bluebank.exceptions.OperationIllegalException;
 import com.br.panacademy.devcompilers.bluebank.repository.AccountRepository;
 import com.br.panacademy.devcompilers.bluebank.repository.ClientRepository;
+import com.br.panacademy.devcompilers.bluebank.repository.HistoricRepository;
 import com.br.panacademy.devcompilers.bluebank.ultis.AccountBuilder;
 import com.br.panacademy.devcompilers.bluebank.ultis.AccountDTOBuilder;
 import com.br.panacademy.devcompilers.bluebank.ultis.ClientBuilder;
@@ -32,8 +33,8 @@ class AccountServiceTest {
     @Mock
     private ClientRepository clientRepository;
 
-    //@Mock
-    //private HistoricService historicService;
+    @Mock
+    private HistoricRepository historicRepository;
 
     @InjectMocks
     private AccountService accountService;
@@ -62,9 +63,9 @@ class AccountServiceTest {
 
         Mockito.when(clientRepository.findByCpf(Mockito.any())).thenReturn(Optional.empty());
 
-        AccountDTO contaDTO = AccountDTOBuilder.createAccountDTO();
+        AccountDTO accountDTO = AccountDTOBuilder.createAccountDTO();
 
-        Assertions.assertThrows(NoSuchElementException.class, () -> accountService.createAccount(contaDTO));
+        Assertions.assertThrows(NoSuchElementException.class, () -> accountService.createAccount(accountDTO));
     }
 
     @Test
@@ -147,16 +148,16 @@ class AccountServiceTest {
     @DisplayName("Deve permitir sacar valor da conta.")
     void quandoInformadoUmValor_DeveRetornarSaqueEfetuadoComSucesso() {
 
-        Account contaSalva = returnAccount(returnAccount());
-        contaSalva.setAccountBalance(1000);
+        Account accountSaved = returnAccount(returnAccount());
+        accountSaved.setAccountBalance(1000);
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(contaSalva));
-        Mockito.when(accountRepository.save(contaSalva)).thenReturn(contaSalva);
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(accountSaved));
+        Mockito.when(accountRepository.save(accountSaved)).thenReturn(accountSaved);
 
-        String mensagemRetorno = accountService.withdrawAccount(contaSalva.getId(), 900);
+        String mensagemRetorno = accountService.withdrawAccount(accountSaved.getId(), 900);
 
         Assertions.assertEquals("Saque realizado!", mensagemRetorno);
-        Assertions.assertEquals(contaSalva.getAccountBalance(), 100);
+        Assertions.assertEquals(accountSaved.getAccountBalance(), 100);
     }
 
     @Test
@@ -192,7 +193,7 @@ class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("Deve permitir depositar o valor na conta.")
+    @DisplayName("Deve permitir depósitar o valor na conta.")
     void quandoInformadoUmValor_DeveRetornarDepositoSucesso() {
 
         Account contaSalva = returnAccount(returnAccount());
@@ -202,12 +203,12 @@ class AccountServiceTest {
 
         String mensagemRetorno = accountService.depositAccount(contaSalva.getId(), 500);
 
-        Assertions.assertEquals(mensagemRetorno, "deposito realizado!");
+        Assertions.assertEquals(mensagemRetorno, "depósito realizado!");
         Assertions.assertEquals(contaSalva.getAccountBalance(), 800);
     }
 
     @Test
-    @DisplayName("Deve retornar a exception ao tentar depositar para uma conta inexistente.")
+    @DisplayName("Deve retornar a exception ao tentar depósitar para uma conta inexistente.")
     void quandoInformadoUmValor_DeveRetornarExceptionDeposito() {
 
         Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.empty());
@@ -216,14 +217,14 @@ class AccountServiceTest {
     }
 
     @Test
-    @DisplayName("Deve retornar a mensagem de valor inválido ao tentar depositar.")
+    @DisplayName("Deve retornar a mensagem de valor inválido ao tentar depósitar.")
     void quandoInformadoUmValor_DeveRetornarValorInvalidoDeposito() {
 
         Account contaSalva = returnAccount(returnAccount());
 
         String mensagemRetorno = accountService.depositAccount(contaSalva.getId(), 0);
 
-        Assertions.assertEquals(mensagemRetorno, "Valor para deposito inválido!");
+        Assertions.assertEquals(mensagemRetorno, "Valor para depósito inválido!");
     }
 
     @Test

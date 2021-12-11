@@ -9,16 +9,21 @@ public class AddressDTO {
 	private Long id;
 	
 	@NotEmpty
+	@Length(max = 9)
 	private String cep;
-	
+
+	@Length(max = 50)
 	private String logradouro;
-	
+
+	@Length(max = 50)
 	private String complemento;
 	
 	@NotEmpty
+	@Length(max = 50)
 	private String bairro;
 	
 	@NotEmpty
+	@Length(max = 50)
 	private String localidade;
 	
 	@NotEmpty

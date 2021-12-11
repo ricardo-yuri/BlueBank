@@ -2,7 +2,9 @@ package com.br.panacademy.devcompilers.bluebank.dto;
 
 import java.time.LocalDateTime;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -17,18 +19,19 @@ public class ClientDTO {
 	private String name;
 	
 	@NotEmpty
-	@Length(max = 14)
+	@Length(min = 11, max = 14)
 	private String cpfUser;
 	
-	@Length(max = 14)
+	@NotEmpty
 	private String rg;
 
+	@Valid
 	private ContactDTO contact;
 
-	@NotEmpty
+	@Valid
 	private AddressDTO address;
 	
-	@NotEmpty
+	@Valid
 	private ClientType clientType;
 	
 	private LocalDateTime createAt;
