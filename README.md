@@ -36,83 +36,83 @@ Para executar o projeto, será necessário instalar os seguintes programas:
 	<tbody>
 	<tr>
 		<td>GET</td>
-		<td>/api/clientes</td>
+		<td>/api/client/getAll</td>
 		<td>Listar todos os clientes</td>
 	</tr>
 	<tr>
 		<td>Post</td>
-		<td>/api/clientes</td>
+		<td>/api/client</td>
 		<td>Criar um novo cliente</td>
 	</tr>
 	<tr>
 		<td>GET</td>
-		<td>/api/clientes/{id}</td>
+		<td>/api/client/{id}</td>
 		<td>Retornar o cliente por id</td>
 	</tr>
 	<tr>
 		<td>GET</td>
-		<td>/api/clientes/cep/{cep}</td>
+		<td>/api/client/cep/{cep}</td>
 		<td>Retornar as informações de endereço através do CEP</td>
 	</tr>
 	<tr>
 		<td>DELETE</td>
-		<td>/api/clientes/delete/{id}</td>
+		<td>/api/client/delete/{id}</td>
 		<td>Deletar um cliente</td>
 	</tr>
 	<tr>
 		<td>PUT</td>
-		<td>/api/clients/update</td>
-		<td>Update clients</td>
+		<td>/api/client/update</td>
+		<td>Atualiza clients</td>
 	</tr>
 	<tr>
 		<td>POST</td>
-		<td>/api/contas</td>
+		<td>/api/account</td>
 		<td>Criar uma nova conta</td>
 	</tr>
 	<tr>
 		<td>Delete</td>
-		<td>/api/contas/delete/{id}</td>
+		<td>/api/account/delete/{id}</td>
 		<td>Deletar uma conta </td>
 	</tr>
 	<tr>
 		<td>PUT</td>
-		<td>/api/contas/depositar/{idConta}/{valor}</td>
+		<td>/api/account/deposit/{idAccount}/{value}</td>
 		<td>Depositar uma conta</td>
 	</tr>
 	<tr>
 		<td>GET</td>
-		<td>/api/contas/findById/{id}</td>
+		<td>/api/account/findById/{id}</td>
 		<td>Retornar uma conta por Id</td>
 	</tr>
 	<tr>
 		<td>PUT</td>
-		<td>/api/contas/sacar/{idConta}/{valor}</td>
+		<td>/api/account/withdraw/{idConta}/{value}</td>
 		<td>Sacar valor de uma conta
 	</td>
 	</tr>
 	<tr>
 		<td>PUT</td>
-		<td>/api/contas/transferir/{valor}</td>
+		<td>/api/account/transfer/{value}</td>
 		<td>Transferir Valor de uma conta</td>
 	</tr>
 	<tr>
 		<td>PUT</td>
-		<td>/api/contas/update</td>
+		<td>/api/account/update</td>
 		<td>Atualizar uma conta</td>
 	</tr>
 	<tr>
 		<td>GET</td>
-		<td>/api/historico/{id}</td>
+		<td>/api/historic/{id}</td>
 		<td>Retornar um histórico por ID</td>
 	</tr>
 	<tr>
 		<td>GET</td>
-		<td>/api/historico/findall</td>
+		<td>/api/historic/findall</td>
 		<td>Retornar todos os logs da aplicação</td>
 	</tr>
 	<tr>
 		<td>GET</td>
-		<td>/api/historico/list/{id}</td>
+		<td>/api/historic/list/{id}</td>
 		<td>Retornar todo o histórico por id da conta</td>
 	</tr>
 	
