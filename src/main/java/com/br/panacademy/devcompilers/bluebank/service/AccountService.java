@@ -15,14 +15,12 @@ import com.br.panacademy.devcompilers.bluebank.utils.DateFormatted;
 import com.br.panacademy.devcompilers.bluebank.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Random;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +33,7 @@ public class AccountService {
     @Autowired
     private HistoricRepository historicRepository;
 
+    @Transactional
     public AccountDTO createAccount(AccountDTO accountDTO) {
         Account account;
         Optional<Client> client = clientRepository.findByCpf(accountDTO.getCpfUser());
@@ -79,6 +78,7 @@ public class AccountService {
     }
 
     //Método sacar
+    @Transactional
     public String withdrawAccount(Long idConta, double valor) {
 
         if (isValorInvalido(valor)) return "Valor para saque inválido!";
@@ -105,6 +105,7 @@ public class AccountService {
     }
 
     //Método depositar
+    @Transactional
     public String depositAccount(Long idConta, double valor) {
 
         if (isValorInvalido(valor)) return "Valor para depósito inválido!";
@@ -123,7 +124,6 @@ public class AccountService {
     }
 
     //Método transferir
-    //TODO Revisar a anotação @Transactional
     @Transactional
     public String transferAccount(Long idContaOrigem, Long idContaDestino, double valor) {
 
@@ -162,9 +162,9 @@ public class AccountService {
             return "Saldo insuficiente para a transferência!";
         }
     }
-/*
+
     public List<HistoricDTO> findByDateHistoric(Long idAccount, LocalDate date) {
-        Optional<List<Historic>> listHistoric = historicRepository.findByCreationDate(idAccount, date);
+        Optional<List<Historic>> listHistoric = historicRepository.findByIdAndOperationDate(idAccount, date);
 
         if(listHistoric.isEmpty()) throw new AccountNotFoundException(idAccount);
 
@@ -172,7 +172,7 @@ public class AccountService {
                 .map(Mapper::toHistoricDTO)
                 .collect(Collectors.toList());
     }
-*/
+
     public List<HistoricDTO> listHistoricIdAccount(Long id) {
         Optional<List<Historic>> listHistoric = historicRepository.findAllByIdAccount(id);
 
@@ -188,8 +188,12 @@ public class AccountService {
         historic.setLog(log);
         historic.setIdAccount(account.getId());
         historic.setOperationType(type);
-        System.out.println(account.getHistoric());
-        account.getHistoric().add(historic);
+
+        //Faz um cópia da lista de histórico para permitir adicionar um novo histórico
+        List<Historic> newHistoric = new ArrayList<>(account.getHistoric());
+        account.getHistoric().clear();
+        newHistoric.add(historic);
+        account.setHistoric(newHistoric);
 
         historicRepository.save(historic);
         accountRepository.save(account);

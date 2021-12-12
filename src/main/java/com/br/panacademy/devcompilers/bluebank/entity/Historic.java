@@ -4,6 +4,7 @@ import com.br.panacademy.devcompilers.bluebank.enums.OperationType;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,6 +22,10 @@ public class Historic {
 
     @Column(nullable = false)
     private OperationType operationType;
+
+    @Column
+    @CreationTimestamp
+    private LocalDate operationDate;
 
     @Column
     @CreationTimestamp
@@ -56,6 +61,14 @@ public class Historic {
 
     public void setOperationType(OperationType operationType) {
         this.operationType = operationType;
+    }
+
+    public LocalDate getOperationDate() {
+        return operationDate;
+    }
+
+    public void setOperationDate(LocalDate operationDate) {
+        this.operationDate = operationDate;
     }
 
     public LocalDateTime getCreateAt() {

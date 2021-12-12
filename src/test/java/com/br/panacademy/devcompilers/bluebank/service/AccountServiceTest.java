@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -42,24 +43,24 @@ class AccountServiceTest {
 
     @Test
     @DisplayName("Retorna a conta criada com sucesso.")
-    void quandoInformadoUmaConta_DeveCriarAConta() {
+    void whenInformedAccount_returnCreateAccount() {
 
-        Account contaEsperada = returnAccount(returnAccount());
+        Account accountExpected = returnAccount(returnAccount());
 
         Mockito.when(clientRepository.findByCpf(Mockito.any())).thenReturn(Optional.of(returnAccount()));
-        Mockito.when(accountRepository.save(Mockito.any())).thenReturn(contaEsperada);
+        Mockito.when(accountRepository.save(Mockito.any())).thenReturn(accountExpected);
 
-        AccountDTO contaDTO = AccountDTOBuilder.createAccountDTO();
-        AccountDTO contaSalva = accountService.createAccount(contaDTO);
+        AccountDTO accountDTO = AccountDTOBuilder.createAccountDTO();
+        AccountDTO accountSaved = accountService.createAccount(accountDTO);
 
-        Assertions.assertEquals(contaEsperada.getId(), contaSalva.getId());
-        Assertions.assertEquals(contaEsperada.getAccountNumber(), contaSalva.getAccountNumber());
-        Assertions.assertEquals(contaEsperada.getClient().getCpf(), contaSalva.getCpfUser());
+        Assertions.assertEquals(accountExpected.getId(), accountSaved.getId());
+        Assertions.assertEquals(accountExpected.getAccountNumber(), accountSaved.getAccountNumber());
+        Assertions.assertEquals(accountExpected.getClient().getCpf(), accountSaved.getCpfUser());
     }
 
     @Test
     @DisplayName("Não deve criar a conta para um cliente inexistente.")
-    void quandoInformadoUmaConta_DeveRetornarNoSuchElementeClientException() {
+    void whenInformedAccount_returnNoSuchElementClientException() {
 
         Mockito.when(clientRepository.findByCpf(Mockito.any())).thenReturn(Optional.empty());
 
@@ -70,20 +71,20 @@ class AccountServiceTest {
 
     @Test
     @DisplayName("Deve retornar a conta por ID.")
-    void quandoInformadoUmaConta_DeveRetornarAConta() {
-        Account contaEsperada = returnAccount(returnAccount());
+    void whenInformedAccount_returnAccount() {
+        Account accountExpected = returnAccount(returnAccount());
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(contaEsperada));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(accountExpected));
 
-        AccountDTO contaRetornada = accountService.findByIdAccount(contaEsperada.getId());
+        AccountDTO returnedAccount = accountService.findByIdAccount(accountExpected.getId());
 
-        Assertions.assertEquals(contaEsperada.getId(), contaRetornada.getId());
-        Assertions.assertEquals(contaEsperada.getClient().getCpf(), contaRetornada.getCpfUser());
+        Assertions.assertEquals(accountExpected.getId(), returnedAccount.getId());
+        Assertions.assertEquals(accountExpected.getClient().getCpf(), returnedAccount.getCpfUser());
     }
 
     @Test
     @DisplayName("Deve retornar Exception ao bucar uma conta por ID.")
-    void quandoInformadoUmaConta_DeveRetornarNoSuchElementException() {
+    void whenInformedAccount_returnNoSuchElementException() {
 
         Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.empty());
 
@@ -92,22 +93,22 @@ class AccountServiceTest {
 
     @Test
     @DisplayName("Deve retornar a conta deletada com sucesso.")
-    void quandoInformadoUmaConta_DeveRetornarAContaDeletada() {
+    void whenInformedAccount_returnAccountIsDeleted() {
 
-        Account contaSalva = returnAccount(returnAccount());
-        contaSalva.setDeleted(true);
+        Account accountSaved = returnAccount(returnAccount());
+        accountSaved.setDeleted(true);
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(contaSalva));
-        Mockito.when(accountRepository.save(Mockito.any())).thenReturn(contaSalva);
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(accountSaved));
+        Mockito.when(accountRepository.save(Mockito.any())).thenReturn(accountSaved);
 
-        String mensagemRetornada = accountService.deleteAccount(1L);
+        String messageReturned = accountService.deleteAccount(1L);
 
-        Assertions.assertEquals(String.format("Conta com Id: %d deletada!", contaSalva.getId()), mensagemRetornada);
+        Assertions.assertEquals(String.format("Conta com Id: %d deletada!", accountSaved.getId()), messageReturned);
     }
 
     @Test
     @DisplayName("Deve retornar uma exception ao tentar deletar uma conta que não existe.")
-    void quandoInformadoUmaConta_DeveRetornarNoSuchElementExceptionParaUmaContaInexistente() {
+    void whenInformedAccount_returnNoSuchElementExceptionForAccountExists() {
 
         Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.empty());
 
@@ -116,53 +117,55 @@ class AccountServiceTest {
 
     @Test
     @DisplayName("Deve retornar uma exception ao tentar mudar o titular da conta.")
-    void quandoInformadoUmaConta_DeveRetornarNoSuchElementExceptionAoTentaAlterarTitularConta() {
+    void whenInformedAccount_returnNoSuchElementExceptionToChangingAccountHolder() {
 
-        Account contaEsperada = returnAccount(returnAccount());
+        Account accountExpected = returnAccount(returnAccount());
 
-        AccountDTO contaUpdate = AccountDTOBuilder.createAccountDTO();
-        contaUpdate.setId(1L);
-        contaUpdate.setCpfUser("000.000.000.00");
+        AccountDTO accountUpdate = AccountDTOBuilder.createAccountDTO();
+        accountUpdate.setId(1L);
+        accountUpdate.setCpfUser("000.000.000.00");
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(contaEsperada));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(accountExpected));
 
-        Assertions.assertThrows(OperationIllegalException.class, () -> accountService.updateAccount(contaUpdate));
+        Assertions.assertThrows(OperationIllegalException.class, () -> accountService.updateAccount(accountUpdate));
     }
 
     @Test
     @DisplayName("Deve retornar uma exception ao tentar mudar o número da conta.")
-    void quandoInformadoUmaConta_DeveRetornarNoSuchElementExceptionAoTentaAlterarNumeroConta() {
+    void whenInformedAccount_returnNoSuchElementExceptionToChangingNumberAccount() {
 
-        Account contaEsperada = returnAccount(returnAccount());
+        Account accountExpected = returnAccount(returnAccount());
 
-        AccountDTO contaUpdate = AccountDTOBuilder.createAccountDTO();
-        contaUpdate.setId(1L);
-        contaUpdate.setAccountNumber("0002-4");
+        AccountDTO accountUpdate = AccountDTOBuilder.createAccountDTO();
+        accountUpdate.setId(1L);
+        accountUpdate.setAccountNumber("0002-4");
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(contaEsperada));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(accountExpected));
 
-        Assertions.assertThrows(OperationIllegalException.class, () -> accountService.updateAccount(contaUpdate));
+        Assertions.assertThrows(OperationIllegalException.class, () -> accountService.updateAccount(accountUpdate));
     }
 
     @Test
     @DisplayName("Deve permitir sacar valor da conta.")
-    void quandoInformadoUmValor_DeveRetornarSaqueEfetuadoComSucesso() {
+    void whenInformedValue_returnWithdrawSuccess() {
 
         Account accountSaved = returnAccount(returnAccount());
         accountSaved.setAccountBalance(1000);
 
+        accountSaved.setHistoric(Collections.emptyList());
+
         Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(accountSaved));
         Mockito.when(accountRepository.save(accountSaved)).thenReturn(accountSaved);
 
-        String mensagemRetorno = accountService.withdrawAccount(accountSaved.getId(), 900);
+        String messageReturn = accountService.withdrawAccount(accountSaved.getId(), 900);
 
-        Assertions.assertEquals("Saque realizado!", mensagemRetorno);
+        Assertions.assertEquals("Saque realizado!", messageReturn);
         Assertions.assertEquals(accountSaved.getAccountBalance(), 100);
     }
 
     @Test
     @DisplayName("Deve retornar uma exception ao tentar sacar um valor de uma conta inexistente.")
-    void quandoInformadoUmValor_DeveRetornarContaNaoEncontrada() {
+    void whenInformedValue_returnAccountNotFound() {
 
         Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.empty());
 
@@ -171,45 +174,46 @@ class AccountServiceTest {
 
     @Test
     @DisplayName("Deve retornar saldo insuficiente ao tentar sacar um valor indisponível na conta.")
-    void quandoInformadoUmValorSuperiorAoSaldo_DeveRetornarSaldoInsuficiente() {
+    void whenInformedValueTop_returnInsufficientBalance() {
 
-        Account contaSalva = returnAccount(returnAccount());
-        contaSalva.setAccountBalance(1000);
+        Account accountSaved = returnAccount(returnAccount());
+        accountSaved.setAccountBalance(1000);
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(contaSalva));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(accountSaved));
 
-        String mensagemRetorno = accountService.withdrawAccount(contaSalva.getId(), 1000.01);
+        String messageReturned = accountService.withdrawAccount(accountSaved.getId(), 1000.01);
 
-        Assertions.assertEquals(mensagemRetorno, "Saldo insuficiente!");
+        Assertions.assertEquals(messageReturned, "Saldo insuficiente!");
     }
 
     @Test
     @DisplayName("Deve retornar valor inválido ao tentar sacar um valor igual ou menor que zero")
-    void quandoInformadoUmValorInvalido_DeveRetornarSaqueNaoRealizado() {
+    void whenInformedValueInvalid_returnWithdrawInvalid() {
 
-        String mensagemRetorno = accountService.withdrawAccount(1L, 0);
+        String messageReturn = accountService.withdrawAccount(1L, 0);
 
-        Assertions.assertEquals(mensagemRetorno, "Valor para saque inválido!");
+        Assertions.assertEquals(messageReturn, "Valor para saque inválido!");
     }
 
     @Test
     @DisplayName("Deve permitir depósitar o valor na conta.")
-    void quandoInformadoUmValor_DeveRetornarDepositoSucesso() {
+    void whenInformedValue_returnDepositSuccess() {
 
-        Account contaSalva = returnAccount(returnAccount());
-        contaSalva.setAccountBalance(300);
+        Account accountSaved = returnAccount(returnAccount());
+        accountSaved.setAccountBalance(300);
+        accountSaved.setHistoric(Collections.emptyList());
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(contaSalva));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.of(accountSaved));
 
-        String mensagemRetorno = accountService.depositAccount(contaSalva.getId(), 500);
+        String messageReturned = accountService.depositAccount(accountSaved.getId(), 500);
 
-        Assertions.assertEquals(mensagemRetorno, "depósito realizado!");
-        Assertions.assertEquals(contaSalva.getAccountBalance(), 800);
+        Assertions.assertEquals(messageReturned, "depósito realizado!");
+        Assertions.assertEquals(accountSaved.getAccountBalance(), 800);
     }
 
     @Test
     @DisplayName("Deve retornar a exception ao tentar depósitar para uma conta inexistente.")
-    void quandoInformadoUmValor_DeveRetornarExceptionDeposito() {
+    void whenInformedValue_returnExceptionDeposit() {
 
         Mockito.when(accountRepository.findByIdAndDeletedIsFalse(Mockito.any())).thenReturn(Optional.empty());
 
@@ -218,62 +222,64 @@ class AccountServiceTest {
 
     @Test
     @DisplayName("Deve retornar a mensagem de valor inválido ao tentar depósitar.")
-    void quandoInformadoUmValor_DeveRetornarValorInvalidoDeposito() {
+    void whenInformedValue_returnInvalidValueDeposit() {
 
-        Account contaSalva = returnAccount(returnAccount());
+        Account accountSaved = returnAccount(returnAccount());
 
-        String mensagemRetorno = accountService.depositAccount(contaSalva.getId(), 0);
+        String messageReturned = accountService.depositAccount(accountSaved.getId(), 0);
 
-        Assertions.assertEquals(mensagemRetorno, "Valor para depósito inválido!");
+        Assertions.assertEquals(messageReturned, "Valor para depósito inválido!");
     }
 
     @Test
     @DisplayName("Deve retornar a mensagem de sucesso ao realizar transferência.")
-    void quandoInformadoUmValor_DeveRetornarSucessoTranferencia() {
-        Account contaOrigem = returnAccount(returnAccount());
-        contaOrigem.setAccountBalance(1000);
+    void whenInformedValue_returnSuccessTransfer() {
+        Account accountOrigen = returnAccount(returnAccount());
+        accountOrigen.setAccountBalance(1000);
+        accountOrigen.setHistoric(Collections.emptyList());
 
-        Account contaDestino = returnAccount(returnAccount());
-        contaDestino.setId(2L);
+        Account accountDestination = returnAccount(returnAccount());
+        accountDestination.setId(2L);
+        accountDestination.setHistoric(Collections.emptyList());
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(contaOrigem.getId())).thenReturn(Optional.of(contaOrigem));
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(contaDestino.getId())).thenReturn(Optional.of(contaDestino));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(accountOrigen.getId())).thenReturn(Optional.of(accountOrigen));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(accountDestination.getId())).thenReturn(Optional.of(accountDestination));
 
-        String mensagemRetorno = accountService.transferAccount(contaOrigem.getId(), contaDestino.getId(), 1000);
-        Assertions.assertEquals(mensagemRetorno, "Transferência realizada com sucesso!");
-        Assertions.assertEquals(contaOrigem.getAccountBalance(), 0);
-        Assertions.assertEquals(contaDestino.getAccountBalance(), 1000);
+        String messageReturned = accountService.transferAccount(accountOrigen.getId(), accountDestination.getId(), 1000);
+        Assertions.assertEquals(messageReturned, "Transferência realizada com sucesso!");
+        Assertions.assertEquals(accountOrigen.getAccountBalance(), 0);
+        Assertions.assertEquals(accountDestination.getAccountBalance(), 1000);
     }
 
     @Test
     @DisplayName("Deve retornar exception para conta de origem inexistente.")
-    void quandoInformadoUmValor_DeveRetornarExceptionContaOrigemInexistenteTranferencia() {
+    void whenInformedValue_returnExceptionAccountOriginNotFound() {
 
-        Account contaOrigem = returnAccount(returnAccount());
+        Account accountOrigen = returnAccount(returnAccount());
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(contaOrigem.getId())).thenReturn(Optional.empty());
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(accountOrigen.getId())).thenReturn(Optional.empty());
 
         Assertions.assertThrows(NoSuchElementException.class, () ->
-                accountService.transferAccount(contaOrigem.getId(), 2L, 100));
+                accountService.transferAccount(accountOrigen.getId(), 2L, 100));
     }
 
     @Test
     @DisplayName("Deve retornar exception para conta de destino inexistente.")
-    void quandoInformadoUmValor_DeveRetornarExceptionContaDestinoInexistenteTranferencia() {
+    void whenInformedValue_returnExceptionAccountDestinationNotFound() {
 
-        Account contaDestino = returnAccount(returnAccount());
-        Account contaOrigem = returnAccount(returnAccount());
+        Account accountDestination = returnAccount(returnAccount());
+        Account accountOrigen = returnAccount(returnAccount());
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(contaOrigem.getId())).thenReturn(Optional.of(contaOrigem));
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(contaDestino.getId())).thenReturn(Optional.empty());
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(accountOrigen.getId())).thenReturn(Optional.of(accountOrigen));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(accountDestination.getId())).thenReturn(Optional.empty());
 
         Assertions.assertThrows(NoSuchElementException.class, () ->
-                accountService.transferAccount(contaOrigem.getId(), contaDestino.getId(), 100));
+                accountService.transferAccount(accountOrigen.getId(), accountDestination.getId(), 100));
     }
 
     @Test
     @DisplayName("Deve retornar a mensagem de valor inválido ao tentar transferir.")
-    void quandoInformadoUmValor_DeveRetornarValorInvalidoTranferencia() {
+    void whenInformedValue_returnValueInvalidTransfer() {
 
         String mensagemRetorno = accountService.transferAccount(1L, 2L, 0);
 
@@ -282,26 +288,26 @@ class AccountServiceTest {
 
     @Test
     @DisplayName("Deve retornar saldo insuficiente ao tentar transferir.")
-    void quandoInformadoUmValor_DeveRetornarSaldoInsuficienteTranferencia() {
+    void whenInformedValue_returnInsufficientBalanceTransfer() {
 
-        Account contaOrigem = returnAccount(returnAccount());
-        contaOrigem.setAccountBalance(1000);
+        Account accountOrigin = returnAccount(returnAccount());
+        accountOrigin.setAccountBalance(1000);
 
-        Account contaDestino = returnAccount(returnAccount());
-        contaDestino.setId(2L);
+        Account accountDestination = returnAccount(returnAccount());
+        accountDestination.setId(2L);
 
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(contaOrigem.getId())).thenReturn(Optional.of(contaOrigem));
-        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(contaDestino.getId())).thenReturn(Optional.of(contaDestino));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(accountOrigin.getId())).thenReturn(Optional.of(accountOrigin));
+        Mockito.when(accountRepository.findByIdAndDeletedIsFalse(accountDestination.getId())).thenReturn(Optional.of(accountDestination));
 
-        String mensagemRetorno = accountService.transferAccount(contaOrigem.getId(), contaDestino.getId(), 1001);
+        String messageReturned = accountService.transferAccount(accountOrigin.getId(), accountDestination.getId(), 1001);
 
-        Assertions.assertEquals(mensagemRetorno, "Saldo insuficiente para a transferência!");
+        Assertions.assertEquals(messageReturned, "Saldo insuficiente para a transferência!");
     }
 
-    private Account returnAccount(Client cliente) {
+    private Account returnAccount(Client client) {
         Account conta = AccountBuilder.createAccount();
         conta.setId(1L);
-        conta.setClient(cliente);
+        conta.setClient(client);
         return conta;
     }
 

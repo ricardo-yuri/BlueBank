@@ -14,7 +14,6 @@ public class Client {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@Column(name = "id_client")
 	private Long id;
 	@Column
 	private String name;
@@ -22,11 +21,11 @@ public class Client {
 	private String cpf;
 	@Column
 	private String rg;
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "id_address")
 	private Address address;
 
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_contact")
 	private Contact contact;
 

@@ -12,15 +12,20 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id_contact")
     private Long id;
+
     @Column
     private String telephone;
+
     @Column(nullable = false)
     @ElementCollection
     private List<String> cell;
+
     @Column(nullable = false, unique = true)
     private String email;
+
     @CreationTimestamp
     private LocalDateTime createAt;
 

@@ -13,18 +13,18 @@ public class AddressDTO {
 	private String cep;
 
 	@Length(max = 50)
-	private String logradouro;
+	private String publicPlace;
 
 	@Length(max = 50)
-	private String complemento;
+	private String complement;
 	
 	@NotEmpty
 	@Length(max = 50)
-	private String bairro;
+	private String district;
 	
 	@NotEmpty
 	@Length(max = 50)
-	private String localidade;
+	private String locality;
 	
 	@NotEmpty
 	@Length(max = 2)
@@ -46,36 +46,36 @@ public class AddressDTO {
 		this.cep = cep;
 	}
 
-	public String getLogradouro() {
-		return logradouro;
+	public String getPublicPlace() {
+		return publicPlace;
 	}
 
-	public void setLogradouro(String logradouro) {
-		this.logradouro = logradouro;
+	public void setPublicPlace(String publicPlace) {
+		this.publicPlace = publicPlace;
 	}
 
-	public String getComplemento() {
-		return complemento;
+	public String getComplement() {
+		return complement;
 	}
 
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
+	public void setComplement(String complement) {
+		this.complement = complement;
 	}
 
-	public String getBairro() {
-		return bairro;
+	public String getDistrict() {
+		return district;
 	}
 
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
+	public void setDistrict(String district) {
+		this.district = district;
 	}
 
-	public String getLocalidade() {
-		return localidade;
+	public String getLocality() {
+		return locality;
 	}
 
-	public void setLocalidade(String localidade) {
-		this.localidade = localidade;
+	public void setLocality(String locality) {
+		this.locality = locality;
 	}
 
 	public String getUf() {
@@ -85,6 +85,4 @@ public class AddressDTO {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-    
-	
 }

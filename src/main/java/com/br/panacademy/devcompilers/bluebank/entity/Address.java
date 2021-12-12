@@ -20,20 +20,27 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_address")
 	private Long id;
+
 	@Column(length = 9)
 	private String cep;
+
 	@Column(length = 50)
 	private String publicPlace;
+
 	@Column(length = 50)
 	private String complement;
+
 	@Column(length = 50)
 	private String district;
+
 	@Column(length = 50)
 	private String locality;
+
 	@Column(length = 2)
 	private String uf;
-    @JsonIgnore
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "address")
+
+	@JsonIgnore
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "address")
 	private List<Client> client = new ArrayList<>();
 
 	public Long getId() {
@@ -92,11 +99,4 @@ public class Address {
 		this.client = client;
 	}
 
-	@Override
-	public String toString() {
-		return "Endereco [id=" + id + ", cep=" + cep + ", logradouro=" + publicPlace + ", complemento=" + complement
-				+ ", bairro=" + district + ", localidade=" + locality + ", uf=" + uf + ", cliente=" + client + "]";
-	}
-
-	
 }

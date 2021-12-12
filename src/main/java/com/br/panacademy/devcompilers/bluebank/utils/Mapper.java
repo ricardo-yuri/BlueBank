@@ -43,8 +43,8 @@ public class Mapper {
 
 		contactDTO.setId(contactEntity.getId());
 		contactDTO.setEmail(contactEntity.getEmail());
-		contactDTO.setTelefone(contactEntity.getTelephone());
-		contactDTO.setCelular(contactEntity.getCell());
+		contactDTO.setTelephone(contactEntity.getTelephone());
+		contactDTO.setCell(contactEntity.getCell());
 		contactDTO.setCreateAt(contactEntity.getCreateAt());
 
 		return contactDTO;
@@ -55,8 +55,8 @@ public class Mapper {
 
 		contact.setId(contactDTO.getId());
 		contact.setEmail(contactDTO.getEmail());
-		contact.setTelephone(contactDTO.getTelefone());
-		contact.setCell(contactDTO.getCelular());
+		contact.setTelephone(contactDTO.getTelephone());
+		contact.setCell(contactDTO.getCell());
 		contact.setCreateAt(contactDTO.getCreateAt());
 
 		return contact;
@@ -67,11 +67,11 @@ public class Mapper {
 		
 		addressDTO.setId(address.getId());
 		addressDTO.setCep(address.getCep());
-		addressDTO.setLogradouro(address.getPublicPlace());
-		addressDTO.setComplemento(address.getComplement());
-		addressDTO.setLocalidade(address.getLocality());
+		addressDTO.setPublicPlace(address.getPublicPlace());
+		addressDTO.setComplement(address.getComplement());
+		addressDTO.setLocality(address.getLocality());
 		addressDTO.setUf(address.getUf());
-		addressDTO.setBairro(address.getDistrict());
+		addressDTO.setDistrict(address.getDistrict());
 		
 		return addressDTO;
 	}
@@ -81,11 +81,11 @@ public class Mapper {
 		
 		addressEntity.setId(addressDTO.getId());
 		addressEntity.setCep(addressDTO.getCep());
-		addressEntity.setPublicPlace(addressDTO.getLogradouro());
-		addressEntity.setComplement(addressDTO.getComplemento());
-		addressEntity.setLocality(addressDTO.getLocalidade());
+		addressEntity.setPublicPlace(addressDTO.getPublicPlace());
+		addressEntity.setComplement(addressDTO.getComplement());
+		addressEntity.setLocality(addressDTO.getLocality());
 		addressEntity.setUf(addressDTO.getUf());
-		addressEntity.setDistrict(addressDTO.getBairro());
+		addressEntity.setDistrict(addressDTO.getDistrict());
 		
 		return addressEntity;
 	}
@@ -95,11 +95,11 @@ public class Mapper {
 		
 		addressEntity.setId(addressDTO.getBody().getId());
 		addressEntity.setCep(addressDTO.getBody().getCep());
-		addressEntity.setPublicPlace(addressDTO.getBody().getLogradouro());
-		addressEntity.setComplement(addressDTO.getBody().getComplemento());
-		addressEntity.setLocality(addressDTO.getBody().getLocalidade());
+		addressEntity.setPublicPlace(addressDTO.getBody().getPublicPlace());
+		addressEntity.setComplement(addressDTO.getBody().getComplement());
+		addressEntity.setLocality(addressDTO.getBody().getLocality());
 		addressEntity.setUf(addressDTO.getBody().getUf());
-		addressEntity.setDistrict(addressDTO.getBody().getBairro());
+		addressEntity.setDistrict(addressDTO.getBody().getDistrict());
 		
 		return addressEntity;
 	}
@@ -109,11 +109,11 @@ public class Mapper {
 		
 		addressDTO.setId(address.getBody().getId());
 		addressDTO.setCep(address.getBody().getCep());
-		addressDTO.setLogradouro(address.getBody().getLogradouro());
-		addressDTO.setComplemento(address.getBody().getComplemento());
-		addressDTO.setLocalidade(address.getBody().getLocalidade());
+		addressDTO.setLocality(address.getBody().getLocality());
+		addressDTO.setComplement(address.getBody().getComplement());
+		addressDTO.setLocality(address.getBody().getLocality());
 		addressDTO.setUf(address.getBody().getUf());
-		addressDTO.setBairro(address.getBody().getBairro());
+		addressDTO.setDistrict(address.getBody().getDistrict());
 		
 		return addressDTO;
 	}

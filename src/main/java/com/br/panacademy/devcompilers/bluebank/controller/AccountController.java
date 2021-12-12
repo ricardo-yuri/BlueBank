@@ -10,11 +10,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @Log4j2
 @RestController
@@ -108,9 +110,9 @@ public class AccountController {
 
         return ResponseEntity.status(HttpStatus.OK).body(accountService.listHistoricIdAccount(id));
     }
-/*
+
     @GetMapping("/historic")
-    @ApiOperation("Retorna todo o histórico por Id da conta.")
+    @ApiOperation("Retorna todo o histórico por Id da conta e a data da operação.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retorna o histórico da conta por Id com Sucesso."),
             @ApiResponse(code = 400, message = "Falha ao retornar o histórico por Id da conta."),
@@ -118,9 +120,8 @@ public class AccountController {
 
     public ResponseEntity findByDateHistoric(
             @RequestParam(name = "idAccount") Long idAccount,
-            @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        System.out.println("Data: " + date);
-        return ResponseEntity.status(HttpStatus.OK).body(accountService.findByDateHistoric(idAccount, date));
+            @RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate operationDate) {
+
+        return ResponseEntity.status(HttpStatus.OK).body(accountService.findByDateHistoric(idAccount, operationDate));
     }
-*/
 }

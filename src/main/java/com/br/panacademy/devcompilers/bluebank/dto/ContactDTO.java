@@ -8,13 +8,16 @@ import java.util.List;
 public class ContactDTO {
 
     private Long id;
-    private String telefone;
+
+    private String telephone;
 
     @NotEmpty
-    private List<String> celular;
+    private List<String> cell;
+
     @NotEmpty(message = "O campmo e-mail não pode ser vazio ou nulo!")
     @Email
     private String email;
+
     private LocalDateTime createAt;
 
     public Long getId() {
@@ -25,20 +28,20 @@ public class ContactDTO {
         this.id = id;
     }
 
-    public String getTelefone() {
-        return telefone;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
-    public List<String> getCelular() {
-        return celular;
+    public List<String> getCell() {
+        return cell;
     }
 
-    public void setCelular(List<String> celular) {
-        this.celular = celular;
+    public void setCell(List<String> cell) {
+        this.cell = cell;
     }
 
     public String getEmail() {

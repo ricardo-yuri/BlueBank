@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AwsSNSService {
 
-    final static String ARN_AWS_CLIENT = "arn:aws:sns:us-east-2:965934840569:DevCompilers";
+    final static String ARN_AWS_CLIENT = "";
 
     public String newSubscription(String emailClient) {
 
@@ -32,8 +32,8 @@ public class AwsSNSService {
     }
 
     private AmazonSNSClient createSNSClient() {
-        final String SECRET_KEY = "F4ErCxih08PjUQwZFug7FjLfmusstDDFWhP2asbT";
-        final String ACCESS_KEY = "AKIA6BZRT7L4YR72JVVZ";
+        final String SECRET_KEY = "";
+        final String ACCESS_KEY = "";
 
         return (AmazonSNSClient) AmazonSNSClientBuilder.standard()
                 .withRegion("us-east-2")

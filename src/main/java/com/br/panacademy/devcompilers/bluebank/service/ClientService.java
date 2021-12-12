@@ -9,13 +9,14 @@ import com.br.panacademy.devcompilers.bluebank.exceptions.OperationIllegalExcept
 import com.br.panacademy.devcompilers.bluebank.repository.AccountRepository;
 import com.br.panacademy.devcompilers.bluebank.repository.AddressRepository;
 import com.br.panacademy.devcompilers.bluebank.repository.ClientRepository;
+import com.br.panacademy.devcompilers.bluebank.repository.ContactRepository;
 import com.br.panacademy.devcompilers.bluebank.utils.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -33,6 +34,19 @@ public class ClientService {
 	@Autowired
 	private AddressRepository addressRepository;
 
+	@Autowired
+	private ContactRepository contactRepository;
+
+	@Transactional
+	public ClientDTO createClient(ClientDTO clientDTO) {
+		if(clientRepository.findByCpf(clientDTO.getCpfUser()).isPresent())
+			throw new OperationIllegalException("Cliente já cadastrado!");
+
+		Client client = clientRepository.save(Mapper.toClient(clientDTO));
+
+		return Mapper.toClientDTO(client);
+	}
+
 	public List<ClientDTO> findAllClient() {
 		return clientRepository.findAll().stream().map(Mapper::toClientDTO).collect(Collectors.toList());
 	}
@@ -47,21 +61,12 @@ public class ClientService {
 	}
 
 	@Transactional
-	public ClientDTO createClient(ClientDTO clientDTO) {
-		if(clientRepository.findByCpf(clientDTO.getCpfUser()).isPresent())
-			throw new OperationIllegalException("Cliente já cadastrado!");
-
-		Client client = clientRepository.save(Mapper.toClient(clientDTO));
-
-		return Mapper.toClientDTO(client);
-	}
-
 	public ClientDTO updateClient(ClientDTO clientDTO) {
 		verifyIfExists(clientDTO.getId());
 		Client client = Mapper.toClient(clientDTO);
-		System.out.println(client.getContato().getCell());
-		addressRepository.save(client.getEndereco());
+
 		Client clientSaved = clientRepository.save(client);
+
 		return Mapper.toClientDTO(clientSaved);
 	}
 
@@ -73,7 +78,7 @@ public class ClientService {
 		if(!accounts.isEmpty()) {
 			for(Account account : accounts) {
 				if(!account.isDeleted()) {
-					throw new NoSuchElementException("Não é possivel deletar um cliente com a conta ativa!");
+					throw new OperationIllegalException("Não é possível deletar um cliente com a conta ativa!");
 				}
 			}
 		}
