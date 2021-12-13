@@ -140,8 +140,16 @@ Para executar o projeto, será necessário instalar os seguintes programas:
 </table>
 
 
-### Por Dentro da Aplicação
+### Por Dentro da Aplicação.
 
-# Criando um cliente
+### Criando um cliente
+
+### Listando um cliente por id
+
+### Atualizando um cliente
+
+### Deletando um cliente
+
+
 
 
