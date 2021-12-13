@@ -142,13 +142,22 @@ Para executar o projeto, será necessário instalar os seguintes programas:
 
 ### Por Dentro da Aplicação.
 
-### Criando um cliente
+### Cadastrando um um cliente
+
+![alt text](https://github.com/ricardo-yuri/BlueBank/blob/main/imgs/cadastrarcCliente.png)
 
 ### Listando um cliente por id
 
+![alt text](https://github.com/ricardo-yuri/BlueBank/blob/main/imgs/Listando-Cliente-Por-ID.png)
+
 ### Atualizando um cliente
 
+#### No caso de exemplo acima, foi digitado o e-mail de um outro cliente no campo de e-mail do Sr Ocimar Ferreira. Para atualizar devemos fazer da seguinte maneira
+
+![alt text](https://github.com/ricardo-yuri/BlueBank/blob/main/imgs/Atualizando%20Cliente.png)
+
 ### Deletando um cliente
+
 
 
 
