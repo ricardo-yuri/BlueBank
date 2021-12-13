@@ -186,7 +186,7 @@ http://ec2-52-15-238-46.us-east-2.compute.amazonaws.com:5000/swagger-ui.html#/ac
 
 <p> Docker - Imagens Open Jdk e Mysql 8 <p/>
 
-<p> Pipeline - Instalação feita diretamente no servidor Amazon linux 2. <p/>
+<p> Build e Pipeline - Instalação do Jenkins feita diretamente no servidor Amazon linux 2. <p/>
 
 
 	
