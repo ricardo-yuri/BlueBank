@@ -5,23 +5,43 @@
 
 ### Participantes da SQUAD
 
+<p>
+  <a href="https://www.linkedin.com/in/ricardo14231/" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> Ricardo Alves Farias
+  </a> &nbsp; 
+	</p>
+  <p> <a href="https://www.linkedin.com/in/ricardoyuri/" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> Ricardo Yuri
+  </a> &nbsp; </p>
+  
+<p> <a href="https://www.linkedin.com/in/matheus-alan/" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> Matheus Alan Vieira
+  </a> &nbsp; </p>
+  
+  <p> <a href="https://www.linkedin.com/in/ramon-reis-57aa0177/" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> Ramon Reis
+  </a> &nbsp; </p>
+  
+  <p> <a href="https://www.linkedin.com/in/luisotaviobatistadev/" rel="nofollow noreferrer">
+    <img src="https://i.stack.imgur.com/gVE0j.png" alt="linkedin"> Luis Otávio Batista
+  </a> &nbsp; </p>
+		
 
-<p> Ricardo Alves </p>
-<p> Ricardo Yuri </p>
-<p>  Ramon Reis </p>
-<p>  Matheus Vieira </p>
-<p> Luis Otávio Batista </p>
 
-
-## Começando
+## Exucação do Projeto
 Para executar o projeto, será necessário instalar os seguintes programas:
 
 <p> JDK 11: Necessário para executar o projeto Java. </p>
 <p> Apache MAVEN 4.0.0: Necessário para realizar o build do projeto Java. </p>
 
 
+## Modelo Entidade Relacionamento
 
-## Endpoints da aplicação 
+![alt text](https://github.com/ricardo-yuri/BlueBank/blob/main/database/diagrama_entidade_relacionamento.png)
+
+
+
+## Lista de Endpoints da aplicação 
 
 <table class="demo">
 	<caption></caption>
@@ -118,3 +138,10 @@ Para executar o projeto, será necessário instalar os seguintes programas:
 	
 	
 </table>
+
+
+### Por Dentro da Aplicação
+
+# Criando um cliente
+
+
