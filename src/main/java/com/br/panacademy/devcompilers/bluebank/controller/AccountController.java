@@ -8,7 +8,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDate;
 
-@Log4j2
 @RestController
 @RequestMapping(value = "/api/account")
 @Api("Endpoint Account.")
 public class AccountController {
+
+    private static final Logger logger = LogManager.getLogger(ClientController.class);
 
     @Autowired
     private AccountService accountService;
@@ -34,7 +36,7 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao criar a conta."),
     })
     public ResponseEntity<AccountDTO> createAccount(@RequestBody @Valid AccountDTO accountDTO) {
-        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log POST (createAccount)"));
+        logger.trace(String.format("%s Log POST (createAccount)", DateFormatted.currentDateFormattedPtBr()));
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.createAccount(accountDTO));
     }
 
@@ -45,7 +47,7 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao buscar a conta por ID."),
     })
     public ResponseEntity<Object> findByIdAccount(@PathVariable Long id) {
-        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log GET (findByIdAccount)"));
+        logger.trace(String.format("%s Log GET (findByIdAccount)", DateFormatted.currentDateFormattedPtBr()));
         return ResponseEntity.status(HttpStatus.OK).body(accountService.findByIdAccount(id));
     }
 
@@ -56,7 +58,7 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao atualizar a conta."),
     })
     public ResponseEntity updateAccount(@RequestBody @Valid AccountDTO accountDTO) {
-        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (updateAccount)"));
+        logger.trace(String.format("%s Log PUT (updateAccount)", DateFormatted.currentDateFormattedPtBr()));
 
         AccountDTO accountToUpdate = accountService.updateAccount(accountDTO);
         return ResponseEntity.status(HttpStatus.OK).body(accountToUpdate);
@@ -69,21 +71,21 @@ public class AccountController {
             @ApiResponse(code = 400, message = "Falha ao deletar a conta."),
     })
     public ResponseEntity<String> deleteAccount(@PathVariable Long id) {
-        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log DELETE (deleteAccount)"));
+        logger.trace(String.format("%s Log DELETE (deleteAccount)", DateFormatted.currentDateFormattedPtBr()));
 
         return ResponseEntity.status(HttpStatus.OK).body(accountService.deleteAccount(id));
     }
 
     @PutMapping("/withdraw/{idAccount}/{value}")
     public ResponseEntity<String> withdrawAccount(@PathVariable Long idAccount, @PathVariable double value) {
-        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (withdrawAccount)"));
+        logger.trace(String.format("%s Log PUT (withdrawAccount)", DateFormatted.currentDateFormattedPtBr()));
 
         return ResponseEntity.status(HttpStatus.OK).body(accountService.withdrawAccount(idAccount, value));
     }
 
     @PutMapping("/deposit/{idAccount}/{value}")
     public ResponseEntity<String> depositAccount(@PathVariable Long idAccount, @PathVariable double value) {
-        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (depositAccount)"));
+        logger.trace(String.format("%s Log PUT (depositAccount)", DateFormatted.currentDateFormattedPtBr()));
 
         return ResponseEntity.status(HttpStatus.OK).body(accountService.depositAccount(idAccount, value));
     }
@@ -93,7 +95,7 @@ public class AccountController {
             @RequestParam(value = "idOriginAccount") Long idOriginAccount,
             @RequestParam(value = "idDestinationAccount") Long idDestinationAccount,
             @RequestParam(value = "value") double value) {
-        log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (transferAccount)"));
+        logger.trace(String.format("%s Log PUT (transferAccount)", DateFormatted.currentDateFormattedPtBr()));
 
         return ResponseEntity
                 .status(HttpStatus.OK)

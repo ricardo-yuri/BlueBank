@@ -8,7 +8,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Log4j2
+
 @RestController
 @RequestMapping(value = "/api/client")
 @Api("Endpoint Client.")
 public class ClientController {
-	
+
+	private static final Logger logger = LogManager.getLogger(ClientController.class);
+
 	@Autowired
 	ClientService clientService;
 
@@ -34,7 +37,7 @@ public class ClientController {
 	})
 
 	public ResponseEntity createClient(@RequestBody @Valid ClientDTO clientDTO) {
-		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log POST (create Client)"));
+		logger.trace(String.format("%s Log POST (create Client)", DateFormatted.currentDateFormattedPtBr()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(clientService.createClient(clientDTO));
 	}
 
@@ -45,7 +48,7 @@ public class ClientController {
             @ApiResponse(code = 400, message = "Falha ao listar clientes."),
     })
 	public ResponseEntity findAll() {
-		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log GET (findAll)"));
+		logger.trace(String.format("%s Log GET (findAll)", DateFormatted.currentDateFormattedPtBr()));
 
 		List<ClientDTO> clients = clientService.findAllClient();
 		return ResponseEntity.status(200).body(clients);
@@ -58,7 +61,7 @@ public class ClientController {
             @ApiResponse(code = 400, message = "Falha ao buscar o cliente por ID."),
     })
 	public ResponseEntity findById(@PathVariable Long id) {
-		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log GET (findById)"));
+		logger.trace(String.format("%s Log GET (findById)", DateFormatted.currentDateFormattedPtBr()));
 		ClientDTO client = clientService.findByIdClient(id);
 
 		return ResponseEntity.status(HttpStatus.OK).body(client);
@@ -71,7 +74,7 @@ public class ClientController {
             @ApiResponse(code = 400, message = "Falha ao atualizar o cliente."),
     })
 	public ResponseEntity updateClient(@RequestBody @Valid ClientDTO clientDTO, @PathVariable Long id) {
-		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log PUT (updateClient)"));
+		logger.trace(String.format("%s Log PUT (updateClient)", DateFormatted.currentDateFormattedPtBr()));
 		ClientDTO client = clientService.updateClient(clientDTO);
 
 		return ResponseEntity.status(HttpStatus.OK).body(client);
@@ -84,14 +87,14 @@ public class ClientController {
             @ApiResponse(code = 400, message = "Falha ao deletar um cliente."),
     })
 	public ResponseEntity<String> deleteClient(@PathVariable Long id) {
-		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log DELETE (deleteClient)"));
+		logger.trace(String.format("%s Log DELETE (deleteClient)", DateFormatted.currentDateFormattedPtBr()));
 
 		return ResponseEntity.status(HttpStatus.OK).body(clientService.deleteClient(id));
 	}
 	
 	@GetMapping("/cep/{cep}")
 	public ResponseEntity<AddressDTO> findAddressByCep(@PathVariable Integer cep) {
-		log.info(DateFormatted.currentDateFormattedPtBr().concat(" Log GET CEP (findAddressByCep)"));
+		logger.trace(String.format("%s Log GET CEP (findAddressByCep)", DateFormatted.currentDateFormattedPtBr()));
 		return ResponseEntity.status(HttpStatus.OK).body(clientService.findAddressByCep(cep));
 	}
 	
